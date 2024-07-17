@@ -105,4 +105,53 @@ public class InventoryDaoImpl {
             }
         }
     }
+    public List<InventoryDTO> getSurplusInventory() throws SQLException {
+    Connection con = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    ArrayList<InventoryDTO> inventoryList = null;
+    try {
+        DataSource ds = new DataSource();
+        con = ds.createConnection();
+        pstmt = con.prepareStatement("SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE surplus = 1");
+        rs = pstmt.executeQuery();
+        inventoryList = new ArrayList<InventoryDTO>();
+        while (rs.next()) {
+            InventoryDTO inventory = new InventoryDTO();
+            inventory.setFoodId(rs.getInt("food_id"));
+            inventory.setFoodName(rs.getString("food_name"));
+            inventory.setQuantity(rs.getInt("quantity"));
+            inventory.setExpDate(rs.getDate("exp_date"));
+            inventory.setPrice(rs.getInt("price"));
+            inventoryList.add(inventory);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e;
+    } finally {
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            if (con != null) {
+                con.close();
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    return inventoryList;
+}
+
 }
