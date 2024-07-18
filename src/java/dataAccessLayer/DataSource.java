@@ -49,7 +49,7 @@ public class DataSource {
     private static String[] openPropsFile() {
         Properties props = new Properties();
 
-        try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("db.properties")) {
+        try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("resources/db.properties")) {
             if (in == null) {
                 throw new IOException("Unable to find db.properties");
             }
