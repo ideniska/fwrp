@@ -23,8 +23,7 @@ public class UserTransactionDaoImpl {
         ResultSet rs = null;
         ArrayList<UserTransactionDTO> transactions = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "SELECT usertransaction_id, user_id, transaction_date FROM UserTransaction ORDER BY usertransaction_id");
             rs = pstmt.executeQuery();
@@ -69,8 +68,7 @@ public class UserTransactionDaoImpl {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "INSERT INTO UserTransaction (user_id, transaction_date) VALUES(?, ?)");
             pstmt.setInt(1, transaction.getUserId());

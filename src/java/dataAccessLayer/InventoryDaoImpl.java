@@ -27,8 +27,7 @@ public class InventoryDaoImpl {
         ResultSet rs = null;
         ArrayList<InventoryDTO> inventoryList = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory ORDER BY food_id");
             rs = pstmt.executeQuery();
@@ -76,8 +75,7 @@ public class InventoryDaoImpl {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) VALUES(?, ?, ?, ?, ?)");
             pstmt.setString(1, inventory.getFoodName());
@@ -111,8 +109,7 @@ public class InventoryDaoImpl {
     ResultSet rs = null;
     ArrayList<InventoryDTO> inventoryList = null;
     try {
-        DataSource ds = new DataSource();
-        con = ds.createConnection();
+        con = DataSource.getConnection();
         pstmt = con.prepareStatement("SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE surplus = 1");
         rs = pstmt.executeQuery();
         inventoryList = new ArrayList<InventoryDTO>();
