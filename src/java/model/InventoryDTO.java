@@ -23,7 +23,7 @@ public class InventoryDTO {
         return foodId;
     }
 
-    public void setFoodId(int foodId) {
+    public void setFoodId(Integer foodId) {
         this.foodId = foodId;
     }
 
@@ -39,7 +39,7 @@ public class InventoryDTO {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -55,7 +55,7 @@ public class InventoryDTO {
         return surplus;
     }
 
-    public void setSurplus(int surplus) {
+    public void setSurplus(Integer surplus) {
         this.surplus = surplus;
     }
 
@@ -63,7 +63,7 @@ public class InventoryDTO {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }
