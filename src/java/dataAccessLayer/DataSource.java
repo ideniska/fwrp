@@ -1,41 +1,67 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dataAccessLayer;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
- *
- * @author denissakhno
+ * This class provides a method to establish a connection to the database using
+ * JDBC.
  */
 public class DataSource {
 
-    private Connection connection = null;
-    private String url = "jdbc:mysql://localhost:3306/fwrp?useSSL=false&allowPublicKeyRetrieval=true";
-    private String username = "ideniska";
-    private String password = "3107872279";
-
-    public DataSource() {
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private DataSource() {
     }
 
-    /*
- * Only use one connection for this application, prevent memory leaks.
+    private static Connection connection = null;
+
+    /**
+     * Returns a Connection object to the database. If the connection does not
+     * already exist, it creates a new one using the properties file.
+     *
+     * @return a Connection object to the database
      */
-    public Connection createConnection() throws SQLException {
+    public static Connection getConnection() {
+        String[] connectionInfo = openPropsFile();
+
         try {
-            if (connection != null) {
-                System.out.println("Cannot create new connection, one exists already");
-            } else {
-                connection = DriverManager.getConnection(url, username, password);
+            if (connection == null) {
+                connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw ex;
         }
         return connection;
+    }
+
+    /**
+     * Reads the database connection properties from a properties file.
+     *
+     * @return an array of Strings containing the connection URL, username, and
+     *         password
+     */
+    private static String[] openPropsFile() {
+        Properties props = new Properties();
+
+        try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("db.properties")) {
+            if (in == null) {
+                throw new IOException("Unable to find db.properties");
+            }
+            props.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String connectionString = props.getProperty("jdbc.url");
+        String username = props.getProperty("jdbc.username");
+        String password = props.getProperty("jdbc.password");
+
+        return new String[]{connectionString, username, password};
     }
 }

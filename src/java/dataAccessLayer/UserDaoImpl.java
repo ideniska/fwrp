@@ -29,8 +29,7 @@ public class UserDaoImpl {
         ResultSet rs = null;
         ArrayList<UserDTO> users = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "SELECT user_id, name, email, password, user_type, location, communication, food_preference, notifications FROM User ORDER BY user_id");
             rs = pstmt.executeQuery();
@@ -81,8 +80,7 @@ public class UserDaoImpl {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            DataSource ds = new DataSource();
-            con = ds.createConnection();
+            con = DataSource.getConnection();
             pstmt = con.prepareStatement(
                     "INSERT INTO User (name, email, password, user_type, location, communication, food_preference, notifications) VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, user.getName());
