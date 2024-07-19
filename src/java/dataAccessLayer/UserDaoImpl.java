@@ -23,7 +23,7 @@ public class UserDaoImpl {
     public UserDaoImpl() {
     }
 
-    public List<UserDTO> getAllUsers() throws SQLException {
+    public List<UserDTO> getAllUsers() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -79,7 +79,7 @@ public class UserDaoImpl {
         return users;
     }
 
-    public void addUser(UserDTO user) {
+    public void addUser(UserDTO user) throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
