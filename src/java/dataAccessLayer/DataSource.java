@@ -27,11 +27,12 @@ public class DataSource {
      *
      * @return a Connection object to the database
      */
-    public static Connection getConnection() {
+    public static Connection getConnection() throws ClassNotFoundException {
         String[] connectionInfo = openPropsFile();
 
         try {
             if (connection == null) {
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(connectionInfo[0], connectionInfo[1], connectionInfo[2]);
             }
         } catch (SQLException ex) {
@@ -49,7 +50,7 @@ public class DataSource {
     private static String[] openPropsFile() {
         Properties props = new Properties();
 
-        try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("db.properties")) {
+        try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("resources/db.properties")) {
             if (in == null) {
                 throw new IOException("Unable to find db.properties");
             }
