@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dataAccessLayer;
 
 import java.util.List;
@@ -13,25 +9,30 @@ import java.sql.SQLException;
 import model.InventoryDTO;
 
 /**
- *
- * @author denissakhno
+ * Data Access Object implementation for the Inventory.
+ * Provides methods to perform CRUD operations on the Inventory table.
+ * 
+ * author denissakhno
  */
 public class InventoryDaoImpl {
 
     public InventoryDaoImpl() {
     }
 
+    /**
+     * Retrieves all inventory items from the database.
+     * 
+     * @return a list of InventoryDTO objects
+     * @throws SQLException if a database access error occurs
+     */
     public List<InventoryDTO> getAllInventory() throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        ArrayList<InventoryDTO> inventoryList = null;
-        try {
-            con = DataSource.getConnection();
-            pstmt = con.prepareStatement(
-                    "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory ORDER BY food_id");
-            rs = pstmt.executeQuery();
-            inventoryList = new ArrayList<InventoryDTO>();
+        List<InventoryDTO> inventoryList = new ArrayList<>();
+        String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory ORDER BY food_id";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
             while (rs.next()) {
                 InventoryDTO inventory = new InventoryDTO();
                 inventory.setFoodId(rs.getInt("food_id"));
@@ -42,42 +43,21 @@ public class InventoryDaoImpl {
                 inventory.setPrice(rs.getInt("price"));
                 inventoryList.add(inventory);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
         }
         return inventoryList;
     }
 
+    /**
+     * Adds a new inventory item to the database.
+     * 
+     * @param inventory the InventoryDTO object to be added
+     */
     public void addInventory(InventoryDTO inventory) {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = DataSource.getConnection();
-            pstmt = con.prepareStatement(
-                    "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) VALUES(?, ?, ?, ?, ?)");
+        String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) VALUES(?, ?, ?, ?, ?)";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
             pstmt.setString(1, inventory.getFoodName());
             pstmt.setInt(2, inventory.getQuantity());
             pstmt.setDate(3, new java.sql.Date(inventory.getExpDate().getTime()));
@@ -86,69 +66,104 @@ public class InventoryDaoImpl {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
         }
     }
-    public List<InventoryDTO> getSurplusInventory() throws SQLException {
-    Connection con = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    ArrayList<InventoryDTO> inventoryList = null;
-    try {
-        con = DataSource.getConnection();
-        pstmt = con.prepareStatement("SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE surplus = 1");
-        rs = pstmt.executeQuery();
-        inventoryList = new ArrayList<InventoryDTO>();
-        while (rs.next()) {
-            InventoryDTO inventory = new InventoryDTO();
-            inventory.setFoodId(rs.getInt("food_id"));
-            inventory.setFoodName(rs.getString("food_name"));
-            inventory.setQuantity(rs.getInt("quantity"));
-            inventory.setExpDate(rs.getDate("exp_date"));
-            inventory.setPrice(rs.getInt("price"));
-            inventoryList.add(inventory);
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        throw e;
-    } finally {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        try {
-            if (con != null) {
-                con.close();
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-    }
-    return inventoryList;
-}
 
+    /**
+     * Updates an existing inventory item in the database.
+     * 
+     * @param inventory the InventoryDTO object containing updated information
+     */
+    public void updateInventory(InventoryDTO inventory) {
+        String query = "UPDATE Inventory SET food_name = ?, quantity = ?, exp_date = ?, surplus = ?, price = ? WHERE food_id = ?";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setString(1, inventory.getFoodName());
+            pstmt.setInt(2, inventory.getQuantity());
+            pstmt.setDate(3, new java.sql.Date(inventory.getExpDate().getTime()));
+            pstmt.setInt(4, inventory.getSurplus());
+            pstmt.setInt(5, inventory.getPrice());
+            pstmt.setInt(6, inventory.getFoodId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Deletes an inventory item from the database.
+     * 
+     * @param foodId the ID of the inventory item to be deleted
+     */
+    public void deleteInventory(int foodId) {
+        String query = "DELETE FROM Inventory WHERE food_id = ?";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setInt(1, foodId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Retrieves all surplus inventory items from the database.
+     * 
+     * @return a list of InventoryDTO objects representing surplus items
+     * @throws SQLException if a database access error occurs
+     */
+    public List<InventoryDTO> getSurplusInventory() throws SQLException {
+        List<InventoryDTO> inventoryList = new ArrayList<>();
+        String query = "SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE surplus = 1";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                InventoryDTO inventory = new InventoryDTO();
+                inventory.setFoodId(rs.getInt("food_id"));
+                inventory.setFoodName(rs.getString("food_name"));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setExpDate(rs.getDate("exp_date"));
+                inventory.setPrice(rs.getInt("price"));
+                inventoryList.add(inventory);
+            }
+        }
+        return inventoryList;
+    }
+
+    /**
+     * Retrieves an inventory item by its ID.
+     * 
+     * @param foodId the ID of the inventory item to be retrieved
+     * @return the InventoryDTO object representing the inventory item
+     * @throws SQLException if a database access error occurs
+     */
+    public InventoryDTO getInventoryById(int foodId) throws SQLException {
+        InventoryDTO inventory = null;
+        String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory WHERE food_id = ?";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setInt(1, foodId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    inventory = new InventoryDTO();
+                    inventory.setFoodId(rs.getInt("food_id"));
+                    inventory.setFoodName(rs.getString("food_name"));
+                    inventory.setQuantity(rs.getInt("quantity"));
+                    inventory.setExpDate(rs.getDate("exp_date"));
+                    inventory.setSurplus(rs.getInt("surplus"));
+                    inventory.setPrice(rs.getInt("price"));
+                }
+            }
+        }
+        return inventory;
+    }
 }

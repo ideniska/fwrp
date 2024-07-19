@@ -11,19 +11,19 @@ package model;
 import java.util.Date;
 
 public class InventoryDTO {
-    private int foodId;
+    private Integer foodId;
     private String foodName;
-    private int quantity;
+    private Integer quantity;
     private Date expDate;
-    private int surplus;
-    private int price;
+    private Integer surplus;
+    private Integer price;
 
     // Getters and Setters
-    public int getFoodId() {
+    public Integer getFoodId() {
         return foodId;
     }
 
-    public void setFoodId(Integer foodId) {
+    public void setFoodId(int foodId) {
         this.foodId = foodId;
     }
 
@@ -35,11 +35,11 @@ public class InventoryDTO {
         this.foodName = foodName;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -51,19 +51,19 @@ public class InventoryDTO {
         this.expDate = expDate;
     }
 
-    public int getSurplus() {
+    public Integer getSurplus() {
         return surplus;
     }
 
-    public void setSurplus(Integer surplus) {
+    public void setSurplus(int surplus) {
         this.surplus = surplus;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }
