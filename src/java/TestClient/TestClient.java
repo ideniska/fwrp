@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public class TestClient {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         InventoryDaoImpl inventoryDao = new InventoryDaoImpl();
         
         // Adding a new inventory item
