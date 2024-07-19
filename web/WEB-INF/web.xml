@@ -10,12 +10,21 @@
         <servlet-name>ConsumerServlet</servlet-name>
         <servlet-class>controller.ConsumerServlet</servlet-class>
     </servlet>
+      <servlet-mapping>
+        <servlet-name>ConsumerServlet</servlet-name>
+        <url-pattern>/Consumer</url-pattern>
+    </servlet-mapping>
 
-    <!-- CharityServlet Configuration -->
+
+    <!-- orderServlet Configuration -->
     <servlet>
-        <servlet-name>CharityServlet</servlet-name>
-        <servlet-class>controller.CharityServlet</servlet-class>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>controller.OrderServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/Order</url-pattern>
+    </servlet-mapping>
 
     <!-- RetailerServlet Configuration -->
     <servlet>
