@@ -16,7 +16,7 @@ public class InventoryDTO {
     private int quantity;
     private Date expDate;
     private int surplus;
-    private int price;
+    private double price;
 
     // Getters and Setters
     public int getFoodId() {
@@ -59,11 +59,11 @@ public class InventoryDTO {
         this.surplus = surplus;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }
