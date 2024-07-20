@@ -25,7 +25,7 @@ public class InventoryDaoImpl {
      * @return a list of InventoryDTO objects
      * @throws SQLException if a database access error occurs
      */
-    public List<InventoryDTO> getAllInventory() throws SQLException {
+    public List<InventoryDTO> getAllInventory() throws SQLException, ClassNotFoundException {
         List<InventoryDTO> inventoryList = new ArrayList<>();
         String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory ORDER BY food_id";
 
@@ -40,7 +40,7 @@ public class InventoryDaoImpl {
                 inventory.setQuantity(rs.getInt("quantity"));
                 inventory.setExpDate(rs.getDate("exp_date"));
                 inventory.setSurplus(rs.getInt("surplus"));
-                inventory.setPrice(rs.getInt("price"));
+                inventory.setPrice(rs.getDouble("price"));
                 inventoryList.add(inventory);
             }
         }
@@ -52,7 +52,7 @@ public class InventoryDaoImpl {
      * 
      * @param inventory the InventoryDTO object to be added
      */
-    public void addInventory(InventoryDTO inventory) {
+    public void addInventory(InventoryDTO inventory) throws ClassNotFoundException {
         String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) VALUES(?, ?, ?, ?, ?)";
 
         try (Connection con = DataSource.getConnection();
@@ -62,7 +62,7 @@ public class InventoryDaoImpl {
             pstmt.setInt(2, inventory.getQuantity());
             pstmt.setDate(3, new java.sql.Date(inventory.getExpDate().getTime()));
             pstmt.setInt(4, inventory.getSurplus());
-            pstmt.setInt(5, inventory.getPrice());
+            pstmt.setDouble(5, inventory.getPrice());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class InventoryDaoImpl {
      * 
      * @param inventory the InventoryDTO object containing updated information
      */
-    public void updateInventory(InventoryDTO inventory) {
+    public void updateInventory(InventoryDTO inventory) throws ClassNotFoundException {
         String query = "UPDATE Inventory SET food_name = ?, quantity = ?, exp_date = ?, surplus = ?, price = ? WHERE food_id = ?";
 
         try (Connection con = DataSource.getConnection();
@@ -83,8 +83,8 @@ public class InventoryDaoImpl {
             pstmt.setString(1, inventory.getFoodName());
             pstmt.setInt(2, inventory.getQuantity());
             pstmt.setDate(3, new java.sql.Date(inventory.getExpDate().getTime()));
-            pstmt.setInt(4, inventory.getSurplus());
-            pstmt.setInt(5, inventory.getPrice());
+            pstmt.setInt(4, inventory.getSurplus()); 
+            pstmt.setDouble(5, inventory.getPrice());
             pstmt.setInt(6, inventory.getFoodId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -97,7 +97,7 @@ public class InventoryDaoImpl {
      * 
      * @param foodId the ID of the inventory item to be deleted
      */
-    public void deleteInventory(int foodId) {
+    public void deleteInventory(int foodId) throws ClassNotFoundException {
         String query = "DELETE FROM Inventory WHERE food_id = ?";
 
         try (Connection con = DataSource.getConnection();
@@ -116,7 +116,7 @@ public class InventoryDaoImpl {
      * @return a list of InventoryDTO objects representing surplus items
      * @throws SQLException if a database access error occurs
      */
-    public List<InventoryDTO> getSurplusInventory() throws SQLException {
+    public List<InventoryDTO> getSurplusInventory() throws SQLException, ClassNotFoundException {
         List<InventoryDTO> inventoryList = new ArrayList<>();
         String query = "SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE surplus = 1";
 
@@ -130,7 +130,7 @@ public class InventoryDaoImpl {
                 inventory.setFoodName(rs.getString("food_name"));
                 inventory.setQuantity(rs.getInt("quantity"));
                 inventory.setExpDate(rs.getDate("exp_date"));
-                inventory.setPrice(rs.getInt("price"));
+                inventory.setPrice(rs.getDouble("price"));
                 inventoryList.add(inventory);
             }
         }
@@ -144,7 +144,7 @@ public class InventoryDaoImpl {
      * @return the InventoryDTO object representing the inventory item
      * @throws SQLException if a database access error occurs
      */
-    public InventoryDTO getInventoryById(int foodId) throws SQLException {
+    public InventoryDTO getInventoryById(int foodId) throws SQLException, ClassNotFoundException {
         InventoryDTO inventory = null;
         String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory WHERE food_id = ?";
 
@@ -160,7 +160,7 @@ public class InventoryDaoImpl {
                     inventory.setQuantity(rs.getInt("quantity"));
                     inventory.setExpDate(rs.getDate("exp_date"));
                     inventory.setSurplus(rs.getInt("surplus"));
-                    inventory.setPrice(rs.getInt("price"));
+                    inventory.setPrice(rs.getDouble("price"));
                 }
             }
         }

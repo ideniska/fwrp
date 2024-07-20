@@ -24,7 +24,7 @@ public class RetailerBusinessLogic {
      * @return a list of InventoryDTO objects
      * @throws SQLException if a database access error occurs
      */
-    public List<InventoryDTO> getAllInventory() throws SQLException {
+    public List<InventoryDTO> getAllInventory() throws SQLException, ClassNotFoundException {
         return inventoryDao.getAllInventory();
     }
 
@@ -33,7 +33,7 @@ public class RetailerBusinessLogic {
      * 
      * @param inventoryItem the InventoryDTO object to be added
      */
-    public void addInventory(InventoryDTO inventoryItem) {
+    public void addInventory(InventoryDTO inventoryItem) throws ClassNotFoundException {
         inventoryDao.addInventory(inventoryItem);
     }
 
@@ -42,7 +42,7 @@ public class RetailerBusinessLogic {
      * 
      * @param inventoryItem the InventoryDTO object containing updated information
      */
-    public void updateInventory(InventoryDTO inventoryItem) {
+    public void updateInventory(InventoryDTO inventoryItem) throws ClassNotFoundException {
         inventoryDao.updateInventory(inventoryItem);
     }
 
@@ -51,7 +51,7 @@ public class RetailerBusinessLogic {
      * 
      * @param foodId the ID of the inventory item to be deleted
      */
-    public void deleteInventory(int foodId) {
+    public void deleteInventory(int foodId) throws ClassNotFoundException {
         inventoryDao.deleteInventory(foodId);
     }
 
@@ -62,7 +62,7 @@ public class RetailerBusinessLogic {
      * @return the InventoryDTO object representing the inventory item
      * @throws SQLException if a database access error occurs
      */
-    public InventoryDTO getInventoryById(int foodId) throws SQLException {
+    public InventoryDTO getInventoryById(int foodId) throws SQLException, ClassNotFoundException {
         return inventoryDao.getInventoryById(foodId);
     }
 }

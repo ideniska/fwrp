@@ -26,7 +26,7 @@ public class RetailerServlet extends HttpServlet{
 
         try {
             inventory = retailerBusinessLogic.getAllInventory();
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             log(ex.getMessage());
         }
 

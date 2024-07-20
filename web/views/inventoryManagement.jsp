@@ -15,6 +15,7 @@
             <th>Quantity</th>
             <th>Expiration Date</th>
             <th>Price</th>
+            <th>Surplus</th>
         </tr>
         <%
             List<InventoryDTO> inventoryList = (List<InventoryDTO>) request.getAttribute("inventoryList");
@@ -27,13 +28,14 @@
             <td><%= item.getQuantity() %></td>
             <td><%= item.getExpDate() %></td>
             <td><%= item.getPrice() %></td>
+            <td><%= item.getSurplus() == 1 ? "Yes" : "No" %></td>
         </tr>
         <%
                 }
             } else {
         %>
         <tr>
-            <td colspan="5">No inventory items available.</td>
+            <td colspan="6">No inventory items available.</td>
         </tr>
         <%
             }
