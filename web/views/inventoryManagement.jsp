@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>Retailer Inventory</h1>
+    <form action="addProduct">
+        <input type="submit" value="Add New Product">
+    </form>
+    <br>
     <table border="1">
         <tr>
             <th>Food ID</th>

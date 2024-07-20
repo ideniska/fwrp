@@ -65,4 +65,14 @@ public class RetailerBusinessLogic {
     public InventoryDTO getInventoryById(int foodId) throws SQLException, ClassNotFoundException {
         return inventoryDao.getInventoryById(foodId);
     }
+    
+    /**
+     * Retrieves the latest food ID.
+     * 
+     * @return the latest food ID
+     * @throws SQLException if a database access error occurs
+     */
+    public int getLatestFoodId() throws SQLException, ClassNotFoundException {
+        return inventoryDao.getLatestFoodId();
+    }
 }

@@ -38,4 +38,15 @@
         <url-pattern>/updateProduct</url-pattern>
     </servlet-mapping>
     
+    <!-- AddProductServlet Configuration -->
+    <servlet>
+        <servlet-name>AddProductServlet</servlet-name>
+        <servlet-class>controller.AddProductServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>AddProductServlet</servlet-name>
+        <url-pattern>/addProduct</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

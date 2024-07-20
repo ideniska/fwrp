@@ -37,7 +37,7 @@ public class UpdateProductServlet extends HttpServlet {
             product.setQuantity(quantity);
             product.setExpDate(expDate);
             product.setPrice(price);
-            product.setSurplus(surplus); // Add this line
+            product.setSurplus(surplus); 
 
             try {
                 retailerBusinessLogic.updateInventory(product);

@@ -166,4 +166,25 @@ public class InventoryDaoImpl {
         }
         return inventory;
     }
+
+    /**
+     * Retrieves the latest food ID from the database.
+     * 
+     * @return the latest food ID
+     * @throws SQLException if a database access error occurs
+     */
+    public int getLatestFoodId() throws SQLException, ClassNotFoundException {
+        String query = "SELECT MAX(food_id) AS latestFoodId FROM Inventory";
+        int latestFoodId = 0;
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            if (rs.next()) {
+                latestFoodId = rs.getInt("latestFoodId");
+            }
+        }
+        return latestFoodId;
+    }
 }
