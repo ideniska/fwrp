@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Charity Inventory</h1>
-    <form action="${pageContext.request.contextPath}/charityView" method="post">
+    <form action="charityView" method="post">
         <table border="1">
             <thead>
                 <tr>
