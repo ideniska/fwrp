@@ -150,8 +150,8 @@ public class InventoryDaoImpl {
     }
     return inventoryList;
 }
-    
-    public List<InventoryDTO> getFilteredInventory() throws SQLException, ClassNotFoundException {
+//================================== I update the method from here(Yuchen Wang)==============================================
+ public List<InventoryDTO> getFilteredInventory() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -160,7 +160,7 @@ public class InventoryDaoImpl {
             con = DataSource.getConnection();
             pstmt = con.prepareStatement("SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE exp_date BETWEEN DATE_ADD(NOW(), INTERVAL 7 DAY) AND DATE_ADD(NOW(), INTERVAL 14 DAY)");
             rs = pstmt.executeQuery();
-            inventoryList = new ArrayList<InventoryDTO>();
+            inventoryList = new ArrayList<>();
             while (rs.next()) {
                 InventoryDTO inventory = new InventoryDTO();
                 inventory.setFoodId(rs.getInt("food_id"));
@@ -174,30 +174,9 @@ public class InventoryDaoImpl {
             e.printStackTrace();
             throw e;
         } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+            closeResources(rs, pstmt, con);
         }
         return inventoryList;
-
     }
 
     public boolean updateInventory(int foodId, int quantity) throws SQLException, ClassNotFoundException {
@@ -212,20 +191,7 @@ public class InventoryDaoImpl {
             int rowsUpdated = pstmt.executeUpdate();
             return rowsUpdated > 0;
         } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
+            closeResources(null, pstmt, con);
         }
     }
 
@@ -252,33 +218,31 @@ public class InventoryDaoImpl {
             itemStmt.setDouble(4, price);
             itemStmt.executeUpdate();
         } finally {
-            if (generatedKeys != null) {
-                try {
-                    generatedKeys.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
+            closeResources(generatedKeys, transactionStmt, null);
+            closeResources(null, itemStmt, con);
+        }
+    }
+
+    private void closeResources(ResultSet rs, PreparedStatement pstmt, Connection con) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-            if (transactionStmt != null) {
-                try {
-                    transactionStmt.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
+        }
+        if (pstmt != null) {
+            try {
+                pstmt.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-            if (itemStmt != null) {
-                try {
-                    itemStmt.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }
