@@ -31,7 +31,7 @@ public class UserDaoImpl {
         try {
             con = DataSource.getConnection();
             pstmt = con.prepareStatement(
-                     "SELECT user_id, first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications FROM User ORDER BY user_id");
+                    "SELECT user_id, first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications FROM User ORDER BY user_id");
             rs = pstmt.executeQuery();
             users = new ArrayList<UserDTO>();
             while (rs.next()) {
@@ -116,5 +116,32 @@ public class UserDaoImpl {
                 System.out.println(ex.getMessage());
             }
         }
+    }
+
+    public UserDTO authenticateUser(String email, String password) {
+        UserDTO user = null;
+        try (Connection connection = DataSource.getConnection();
+             PreparedStatement ps = connection.prepareStatement("SELECT * FROM User WHERE email = ? AND password = ?")) {
+            ps.setString(1, email);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new UserDTO();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setAddress(rs.getString("address"));
+                user.setPhone(rs.getString("phone"));
+                user.setEmail(rs.getString("email"));
+                user.setUserType(rs.getInt("user_type"));
+                user.setLocation(rs.getString("location"));
+                user.setCommunication(rs.getInt("communication"));
+                user.setFoodPreference(rs.getString("food_preference"));
+                user.setNotifications(rs.getInt("notifications"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
