@@ -5,23 +5,44 @@
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
+    <!-- ConsumerServlet Configuration -->
+    <servlet>
+        <servlet-name>ConsumerServlet</servlet-name>
+        <servlet-class>controller.ConsumerServlet</servlet-class>
+    </servlet>
+      <servlet-mapping>
+        <servlet-name>ConsumerServlet</servlet-name>
+        <url-pattern>/Consumer</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- orderServlet Configuration -->
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>controller.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/Order</url-pattern>
+    </servlet-mapping>
+
     <!-- RetailerServlet Configuration -->
     <servlet>
         <servlet-name>RetailerServlet</servlet-name>
         <servlet-class>controller.RetailerServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>RetailerServlet</servlet-name>
         <url-pattern>/retailer</url-pattern>
     </servlet-mapping>
-    
+
     <!-- ProductDetailServlet Configuration -->
     <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>controller.ProductDetailServlet</servlet-class>
     </servlet>
-   
+
     <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
         <url-pattern>/productDetail</url-pattern>
@@ -32,21 +53,21 @@
         <servlet-name>UpdateProductServlet</servlet-name>
         <servlet-class>controller.UpdateProductServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>UpdateProductServlet</servlet-name>
         <url-pattern>/updateProduct</url-pattern>
     </servlet-mapping>
-    
+
     <!-- AddProductServlet Configuration -->
     <servlet>
         <servlet-name>AddProductServlet</servlet-name>
         <servlet-class>controller.AddProductServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>AddProductServlet</servlet-name>
         <url-pattern>/addProduct</url-pattern>
     </servlet-mapping>
-    
+
 </web-app>

@@ -1,17 +1,16 @@
-<%-- 
-    Document   : loginView
-    Created on : Jul. 11, 2024, 7:13:10 p.m.
-    Author     : denissakhno
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="<%=request.getContextPath()%>/loginLogic" method="post">
+        Email: <input type="text" name="email"><br>
+        Password: <input type="password" name="password"><br>
+        <input type="submit" value="Login">
+    </form>
+    <p>Don't have an account? <a href="<%=request.getContextPath()%>/register">Register</a></p>
+</body>
 </html>

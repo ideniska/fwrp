@@ -17,7 +17,7 @@ public class TransactionItemDaoImpl {
     public TransactionItemDaoImpl() {
     }
 
-    public List<TransactionItemDTO> getAllTransactionItems() throws SQLException {
+    public List<TransactionItemDTO> getAllTransactionItems() throws SQLException, ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -66,7 +66,7 @@ public class TransactionItemDaoImpl {
         return items;
     }
 
-    public void addTransactionItem(TransactionItemDTO item) {
+    public void addTransactionItem(TransactionItemDTO item) throws ClassNotFoundException {
         Connection con = null;
         PreparedStatement pstmt = null;
         try {

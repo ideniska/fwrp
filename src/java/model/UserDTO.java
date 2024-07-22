@@ -10,7 +10,10 @@ package model;
  */
 public class UserDTO {
     private int userId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String address;
     private String email;
     private String password;
     private int userType;
@@ -28,14 +31,37 @@ public class UserDTO {
         this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    
+     public String getLastName() {
+        return lastName;
+    }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }   
+    
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
+     public String getPhone() {
+        return phone;
+    }
+    
+    public String getAddress() {
+        return address;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
     public String getEmail() {
         return email;
     }
