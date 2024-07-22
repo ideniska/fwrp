@@ -1,9 +1,6 @@
 package dataAccessLayer;
 
 import java.util.List;
-
-import javax.sql.DataSource;
-
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -194,6 +191,7 @@ public class InventoryDaoImpl {
         return latestFoodId;
     }
 
+    // TODO CHANGE METHOD NAME TO MORE UNDERSTANDABLE
     public List<InventoryDTO> getFilteredInventory() throws SQLException, ClassNotFoundException {
         ArrayList<InventoryDTO> inventoryList = null;
         try (Connection con = DataSource.getConnection();
@@ -216,6 +214,37 @@ public class InventoryDaoImpl {
             throw e;
         }
         return inventoryList;
+    }
+    
+    // TODO YUCHEN: UPDATE THIS METHOD TO ACCEPT INVENTORY DTO not its fields -> DAO works with DTOs
+    public void logPurchase(int userId, int foodId, int quantity, double price) throws SQLException, ClassNotFoundException {
+        String transactionQuery = "INSERT INTO UserTransaction (user_id, transaction_date) VALUES (?, NOW())";
+        String itemQuery = "INSERT INTO TransactionItem (usertransaction_id, food_id, quantity, price) VALUES (?, ?, ?, ?)";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement transactionStmt = con.prepareStatement(transactionQuery, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            transactionStmt.setInt(1, userId);
+            transactionStmt.executeUpdate();
+
+            try (ResultSet generatedKeys = transactionStmt.getGeneratedKeys()) {
+                int transactionId = 0;
+                if (generatedKeys.next()) {
+                    transactionId = generatedKeys.getInt(1);
+                }
+
+                try (PreparedStatement itemStmt = con.prepareStatement(itemQuery)) {
+                    itemStmt.setInt(1, transactionId);
+                    itemStmt.setInt(2, foodId);
+                    itemStmt.setInt(3, quantity);
+                    itemStmt.setDouble(4, price);
+                    itemStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

@@ -18,15 +18,13 @@ public class TransactionItemDaoImpl {
     }
 
     public List<TransactionItemDTO> getAllTransactionItems() throws SQLException, ClassNotFoundException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         ArrayList<TransactionItemDTO> items = null;
-        try {
-            con = DataSource.getConnection();
-            pstmt = con.prepareStatement(
+        try 
+        (   Connection con = DataSource.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(
                     "SELECT transactionitem_id, usertransaction_id, food_id, quantity, price FROM TransactionItem ORDER BY transactionitem_id");
-            rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();)
+        {
             items = new ArrayList<TransactionItemDTO>();
             while (rs.next()) {
                 TransactionItemDTO item = new TransactionItemDTO();
@@ -40,39 +38,17 @@ public class TransactionItemDaoImpl {
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
+        } 
         return items;
     }
 
     public void addTransactionItem(TransactionItemDTO item) throws ClassNotFoundException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = DataSource.getConnection();
-            pstmt = con.prepareStatement(
-                    "INSERT INTO TransactionItem (usertransaction_id, food_id, quantity, price) VALUES(?, ?, ?, ?)");
+        try 
+        (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(
+                    "INSERT INTO TransactionItem (usertransaction_id, food_id, quantity, price) VALUES(?, ?, ?, ?)");)
+        {
+            
             pstmt.setInt(1, item.getUserTransactionId());
             pstmt.setInt(2, item.getFoodId());
             pstmt.setInt(3, item.getQuantity());
@@ -80,21 +56,6 @@ public class TransactionItemDaoImpl {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
+        } 
     }
 }

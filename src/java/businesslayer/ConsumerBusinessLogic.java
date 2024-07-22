@@ -26,8 +26,10 @@ public class ConsumerBusinessLogic {
         return inventoryDao.getFilteredInventory();
     }
 
-    public boolean updateInventory(int foodId, int quantity) throws SQLException, ClassNotFoundException {
-        return inventoryDao.updateInventory(foodId, quantity);
+    
+    public boolean updateInventory(InventoryDTO inventory) throws SQLException, ClassNotFoundException {
+        // TODO YUCHEN: UPDATE THIS METHOD TO ACCEPT an object of InventoryDTO 
+        return inventoryDao.updateInventory(InventoryDTO inventory);
     }
 
     public void logPurchase(int userId, int foodId, int quantity, double price) throws SQLException, ClassNotFoundException {

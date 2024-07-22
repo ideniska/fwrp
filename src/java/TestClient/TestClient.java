@@ -28,7 +28,7 @@ public class TestClient {
         newInventory.setQuantity(100);
         newInventory.setExpDate(new Date()); // Set current date for simplicity
         newInventory.setSurplus(10);
-        newInventory.setPrice(50);
+        newInventory.setPrice(50.0);
 
         inventoryDao.addInventory(newInventory);
         System.out.println("New inventory item added successfully!");
