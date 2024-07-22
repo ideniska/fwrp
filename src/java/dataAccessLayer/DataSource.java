@@ -19,7 +19,7 @@ public class DataSource {
     private DataSource() {
     }
 
-    private static Connection connection = null;
+//    private static Connection connection = null;
 
     /**
      * Returns a Connection object to the database. If the connection does not
@@ -29,6 +29,7 @@ public class DataSource {
      */
     public static Connection getConnection() throws ClassNotFoundException {
         String[] connectionInfo = openPropsFile();
+        Connection connection = null;
 
         try {
             if (connection == null) {
