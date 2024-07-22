@@ -70,4 +70,13 @@
         <url-pattern>/addProduct</url-pattern>
     </servlet-mapping>
 
+    <!-- CharityServlet Configuration -->
+    <servlet>
+        <servlet-name>CharityServlet</servlet-name>
+        <servlet-class>controller.CharityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CharityServlet</servlet-name>
+        <url-pattern>/charityView</url-pattern>
+    </servlet-mapping>
 </web-app>
