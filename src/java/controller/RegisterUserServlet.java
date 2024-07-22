@@ -51,7 +51,7 @@ public class RegisterUserServlet extends HttpServlet {
         try {
             userDao.addUser(user);
             // Redirect to a success page or another page as needed
-            response.sendRedirect(request.getContextPath() + "/views/loginView.jsp");
+            response.sendRedirect(request.getContextPath() + "/login");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             // Handle the exception, possibly redirect to an error page

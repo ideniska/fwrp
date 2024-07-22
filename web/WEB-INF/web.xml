@@ -77,6 +77,47 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CharityServlet</servlet-name>
-        <url-pattern>/charityView</url-pattern>
+        <url-pattern>/Charity</url-pattern>
     </servlet-mapping>
+    
+        <!-- RegisterServlet Configuration -->
+    <servlet>
+        <servlet-name>RegisterUserServlet</servlet-name>
+        <servlet-class>controller.RegisterUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterUserServlet</servlet-name>
+        <url-pattern>/registerUser</url-pattern>
+    </servlet-mapping>
+    
+    <!-- LoginLogicServlet Configuration -->
+    <servlet>
+        <servlet-name>LoginLogicServlet</servlet-name>
+        <servlet-class>controller.LoginLogicServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginLogicServlet</servlet-name>
+        <url-pattern>/loginLogic</url-pattern>
+    </servlet-mapping>
+    
+    <!-- LoginServlet Configuration -->
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>controller.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    
+    <!-- RegisterServlet Configuration -->
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>controller.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

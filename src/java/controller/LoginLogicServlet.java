@@ -40,7 +40,7 @@ public class LoginLogicServlet extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/Charity");
                     break;
                 case 3:
-                    response.sendRedirect(request.getContextPath() + "/Retailer");
+                    response.sendRedirect(request.getContextPath() + "/retailer");
                     break;
                 default:
                     //TODO add servlet for jsp for cleaner url

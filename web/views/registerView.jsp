@@ -38,6 +38,6 @@
         </select><br>
         <input type="submit" value="Register">
     </form>
-    <p>Already have an account? <a href="loginView.jsp">Login</a></p>
+    <p>Already have an account? <a href="<%=request.getContextPath()%>/login">Login</a></p>
 </body>
 </html>
