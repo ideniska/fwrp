@@ -1,6 +1,9 @@
 package dataAccessLayer;
 
 import java.util.List;
+
+import javax.sql.DataSource;
+
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -133,6 +136,9 @@ public class InventoryDaoImpl {
                 inventory.setPrice(rs.getDouble("price"));
                 inventoryList.add(inventory);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
         }
         return inventoryList;
     }
@@ -187,4 +193,29 @@ public class InventoryDaoImpl {
         }
         return latestFoodId;
     }
+
+    public List<InventoryDTO> getFilteredInventory() throws SQLException, ClassNotFoundException {
+        ArrayList<InventoryDTO> inventoryList = null;
+        try (Connection con = DataSource.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(
+                        "SELECT food_id, food_name, quantity, exp_date, price FROM Inventory WHERE exp_date BETWEEN DATE_ADD(NOW(), INTERVAL 7 DAY) AND DATE_ADD(NOW(), INTERVAL 14 DAY)");
+                ResultSet rs = pstmt.executeQuery();) {
+
+            inventoryList = new ArrayList<>();
+            while (rs.next()) {
+                InventoryDTO inventory = new InventoryDTO();
+                inventory.setFoodId(rs.getInt("food_id"));
+                inventory.setFoodName(rs.getString("food_name"));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setExpDate(rs.getDate("exp_date"));
+                inventory.setPrice(rs.getDouble("price"));
+                inventoryList.add(inventory);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return inventoryList;
+    }
+
 }
