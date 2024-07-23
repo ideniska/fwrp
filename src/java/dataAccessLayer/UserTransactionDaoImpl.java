@@ -1,6 +1,7 @@
 
 package dataAccessLayer;
 
+import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
@@ -40,11 +41,17 @@ public class UserTransactionDaoImpl {
         String query = "INSERT INTO UserTransaction (user_id, transaction_date) VALUES(?, ?)";
 
         try (Connection con = DataSource.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(query)) {
+             PreparedStatement pstmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, transaction.getUserId());
             pstmt.setDate(2, new java.sql.Date(transaction.getTransactionDate().getTime()));
             pstmt.executeUpdate();
+            
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {//new
+                if (generatedKeys.next()) {
+                    transaction.setUserTransactionId(generatedKeys.getInt(1));
+                }
+            }//end
         } catch (SQLException e) {
             e.printStackTrace();
         }
