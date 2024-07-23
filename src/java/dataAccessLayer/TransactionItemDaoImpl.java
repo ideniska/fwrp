@@ -32,7 +32,7 @@ public class TransactionItemDaoImpl {
                 item.setUserTransactionId(rs.getInt("usertransaction_id"));
                 item.setFoodId(rs.getInt("food_id"));
                 item.setQuantity(rs.getInt("quantity"));
-                item.setPrice(rs.getInt("price"));
+                item.setPrice(rs.getDouble("price"));
                 items.add(item);
             }
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class TransactionItemDaoImpl {
             pstmt.setInt(1, item.getUserTransactionId());
             pstmt.setInt(2, item.getFoodId());
             pstmt.setInt(3, item.getQuantity());
-            pstmt.setInt(4, item.getPrice());
+            pstmt.setDouble(4, item.getPrice());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

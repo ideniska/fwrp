@@ -13,7 +13,7 @@ public class TransactionItemDTO {
     private int userTransactionId;
     private int foodId;
     private int quantity;
-    private int price;
+    private Double price;
 
     // Getters and Setters
     public int getTransactionItemId() {
@@ -48,11 +48,11 @@ public class TransactionItemDTO {
         this.quantity = quantity;
     }
 
-    public int getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 }
