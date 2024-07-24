@@ -12,7 +12,7 @@
     </servlet>
       <servlet-mapping>
         <servlet-name>ConsumerServlet</servlet-name>
-        <url-pattern>/consumer</url-pattern>
+        <url-pattern>/Consumer</url-pattern>
     </servlet-mapping>
 
 
@@ -23,7 +23,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>OrderServlet</servlet-name>
-        <url-pattern>/order</url-pattern>
+        <url-pattern>/Order</url-pattern>
     </servlet-mapping>
 
     <!-- RetailerServlet Configuration -->
