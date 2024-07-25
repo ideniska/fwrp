@@ -246,5 +246,37 @@ public class InventoryDaoImpl {
             throw e;
         }
     }
+    
+      /**
+     * Retrieves inventory items that qualify for charity.
+     *
+     * @return a list of InventoryDTO objects
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
+    public List<InventoryDTO> getCharityInventory() throws SQLException, ClassNotFoundException {
+        List<InventoryDTO> inventoryList = new ArrayList<>();
+        String query = "SELECT food_id, food_name, quantity, exp_date, price FROM Inventory " +
+                       "WHERE surplus = 1 OR exp_date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 7 DAY)";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                InventoryDTO inventory = new InventoryDTO();
+                inventory.setFoodId(rs.getInt("food_id"));
+                inventory.setFoodName(rs.getString("food_name"));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setExpDate(rs.getDate("exp_date"));
+                inventory.setPrice(rs.getDouble("price"));
+                inventoryList.add(inventory);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return inventoryList;
+    }
 
 }

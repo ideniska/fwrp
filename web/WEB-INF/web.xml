@@ -77,7 +77,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CharityServlet</servlet-name>
-        <url-pattern>/Charity</url-pattern>
+        <url-pattern>/charity</url-pattern>
     </servlet-mapping>
     
         <!-- RegisterServlet Configuration -->
@@ -118,6 +118,15 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+       <!-- CheckoutServlet Configuration -->
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>controller.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
     
 </web-app>
