@@ -101,7 +101,7 @@ public class UserDaoImpl {
     
     public UserDTO getUserById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
-        String query = "SELECT user_id, first_name, last_name, phone, address FROM User WHERE user_id = ?";
+        String query = "SELECT user_id, first_name, last_name, phone, address, credit FROM User WHERE user_id = ?";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -115,11 +115,22 @@ public class UserDaoImpl {
                     user.setLastName(rs.getString("last_name"));
                     user.setPhone(rs.getString("phone"));
                     user.setAddress(rs.getString("address"));
+                    user.setPhone(rs.getString("phone"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setUserType(rs.getInt("user_type"));
+                    user.setLocation(rs.getString("location"));
+                    user.setCommunication(rs.getInt("communication"));
+                    user.setFoodPreference(rs.getString("food_preference"));
+                    user.setNotifications(rs.getInt("notifications"));
+                    user.setCredit(rs.getDouble("credit"));
                 }
             }
         }
         return user;
     }
+    
+
     
     public void updateUser(UserDTO user) throws SQLException, ClassNotFoundException {
         String query = "UPDATE User SET first_name = ?, last_name = ?, phone = ?, address = ? WHERE user_id = ?";
@@ -132,6 +143,37 @@ public class UserDaoImpl {
             pstmt.setString(3, user.getPhone());
             pstmt.setString(4, user.getAddress());
             pstmt.setInt(5, user.getUserId());
+            pstmt.executeUpdate();
+        }
+    }
+    
+   public UserDTO getUserCreditById(int userId) throws SQLException, ClassNotFoundException {
+        UserDTO user = null;
+        String query = "SELECT credit FROM User WHERE user_id = ?";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setInt(1, userId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    user = new UserDTO();
+                    user.setUserId(userId); 
+                    user.setCredit(rs.getDouble("credit"));
+                }
+            }
+        }
+        return user;
+    }
+    
+    public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE User SET credit = ? WHERE user_id = ?";
+
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setDouble(1, user.getCredit());
+            pstmt.setInt(2, user.getUserId());
             pstmt.executeUpdate();
         }
     }

@@ -21,6 +21,7 @@ public class UserDTO {
     private Integer communication;
     private String foodPreference;
     private Integer notifications;
+    private double credit;
 
     // Getters and Setters
     public int getUserId() {
@@ -116,5 +117,13 @@ public class UserDTO {
 
     public void setNotifications(Integer notifications) {
         this.notifications = notifications;
+    }
+    
+    public double getCredit() {
+        return credit;
+    }
+
+    public void setCredit(double credit) {
+        this.credit = credit;
     }
 }

@@ -5,8 +5,10 @@ import java.sql.SQLException;
 import model.InventoryDTO;
 import dataAccessLayer.InventoryDaoImpl;
 import dataAccessLayer.TransactionItemDaoImpl;
+import dataAccessLayer.UserDaoImpl;
 import dataAccessLayer.UserTransactionDaoImpl;
 import model.TransactionItemDTO;
+import model.UserDTO;
 import model.UserTransactionDTO;
 
 /**
@@ -19,6 +21,7 @@ public class ConsumerBusinessLogic {
     private InventoryDaoImpl inventoryDao = null;
     private TransactionItemDaoImpl transactionItemDao = null;
     private UserTransactionDaoImpl userTransactionDao = null;
+    private UserDaoImpl userDao = null;
 
      /**
      * Constructor to initialize the data access objects.
@@ -27,6 +30,7 @@ public class ConsumerBusinessLogic {
         inventoryDao = new InventoryDaoImpl();
         transactionItemDao = new TransactionItemDaoImpl();
         userTransactionDao = new UserTransactionDaoImpl();
+        userDao = new UserDaoImpl();
     }
 
      /**
@@ -95,4 +99,12 @@ public class ConsumerBusinessLogic {
     public void addUserTransaction(UserTransactionDTO userTransaction)throws SQLException, ClassNotFoundException {
         userTransactionDao.addUserTransaction(userTransaction);
     }   
+    
+    public UserDTO getUserCreditById(int userId) throws SQLException, ClassNotFoundException {
+        return userDao.getUserCreditById(userId);
+    }
+
+    public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundException {
+        userDao.updateUserCredit(user);
+    }
 }
