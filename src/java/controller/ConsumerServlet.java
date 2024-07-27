@@ -131,11 +131,16 @@ public class ConsumerServlet extends HttpServlet {
             item.setQuantity(item.getQuantity() - quantity);
             consumerBusinessLogic.updateInventory(item);
 
+//            get credit and actualPayment
+            UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
+            double credit = user.getCredit();
+            double actualPayment = totalPrice - credit;
+            
             TransactionItemDTO transactionItem = new TransactionItemDTO();
             transactionItem.setUserTransactionId(userTransactionId);
             transactionItem.setFoodId(foodId);
             transactionItem.setQuantity(quantity);
-            transactionItem.setPrice(price);
+            transactionItem.setPrice(actualPayment);//change to actualPayment from price
             consumerBusinessLogic.addTransactionItem(transactionItem);
         }
 
