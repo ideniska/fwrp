@@ -146,12 +146,9 @@ public class ConsumerServlet extends HttpServlet {
         user.setCredit(newCredit);
         consumerBusinessLogic.updateUserCredit(user);
 
-        // 新添加的日志
-        System.out.println("User ID: " + userId + ", New Credit: " + user.getCredit());
-
-        request.setAttribute("totalPrice", totalPrice);
-        request.setAttribute("credit", credit);
-        request.setAttribute("actualPayment", actualPayment);
+//        request.setAttribute("totalPrice", totalPrice);
+//        request.setAttribute("credit", credit);
+//        request.setAttribute("actualPayment", actualPayment);
         request.setAttribute("message", "Purchase successful!");
 
         } catch (SQLException | ClassNotFoundException e) {
