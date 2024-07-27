@@ -1,20 +1,21 @@
 package controller;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import businesslayer.RetailerBusinessLogic;
+import model.InventoryDTO;
+import model.UserDTO;
+import model.UserType;
+import util.AuthUtils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.sql.SQLException;
-import model.InventoryDTO;
-import businesslayer.RetailerBusinessLogic;
-import model.UserType;
-import util.AuthUtils;
-
 
 public class AddProductServlet extends HttpServlet {
 
@@ -59,6 +60,8 @@ public class AddProductServlet extends HttpServlet {
             expDate = formatter.parse(expDateString);
         } catch (ParseException e) {
             log("Date parsing error: " + e.getMessage());
+            response.sendRedirect("addProduct?error=Invalid%20Date%20Format");
+            return;
         }
 
         if (price <= 0 || quantity <= 0 || expDate == null || expDate.before(new Date())) {
@@ -74,10 +77,15 @@ public class AddProductServlet extends HttpServlet {
         newItem.setPrice(price);
         newItem.setSurplus(surplus);
 
+        UserDTO user = (UserDTO) request.getSession().getAttribute("user");
+        int userId = user.getUserId();
+
         try {
-            retailerBusinessLogic.addInventory(newItem);
+            retailerBusinessLogic.addInventory(newItem, userId);
         } catch (ClassNotFoundException ex) {
             log(ex.getMessage());
+            response.sendRedirect("addProduct?error=Database%20Error");
+            return;
         }
 
         response.sendRedirect("retailer");

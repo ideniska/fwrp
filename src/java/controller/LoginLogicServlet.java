@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dataAccessLayer.UserDaoImpl;
@@ -31,7 +27,7 @@ public class LoginLogicServlet extends HttpServlet {
         UserDTO user = userDao.authenticateUser(email, password);
 
         if (user != null) {
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("user", user); // Store the entire UserDTO object
             switch (user.getUserType()) {
                 case 1:
                     response.sendRedirect(request.getContextPath() + "/consumer");

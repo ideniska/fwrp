@@ -28,13 +28,17 @@ public class RetailerBusinessLogic {
         return inventoryDao.getAllInventory();
     }
 
+    public List<InventoryDTO> getInventoryByUserId(int userId) throws SQLException, ClassNotFoundException {
+        return inventoryDao.getInventoryByUserId(userId);
+    }
+        
     /**
      * Adds a new inventory item.
      * 
      * @param inventoryItem the InventoryDTO object to be added
      */
-    public void addInventory(InventoryDTO inventoryItem) throws ClassNotFoundException {
-        inventoryDao.addInventory(inventoryItem);
+    public void addInventory(InventoryDTO inventoryItem, int userId) throws ClassNotFoundException {
+        inventoryDao.addInventory(inventoryItem, userId);
     }
 
     /**
