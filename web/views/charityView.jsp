@@ -51,5 +51,10 @@
         </table>
         <input type="submit" value="Claim Selected Items">
     </form>
+            
+    <form action="<%=request.getContextPath()%>/logout" method="post">
+        <input type="submit" value="Log Out">
+    </form>
+
 </body>
 </html>

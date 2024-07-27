@@ -77,7 +77,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CharityServlet</servlet-name>
-        <url-pattern>/Charity</url-pattern>
+        <url-pattern>/charity</url-pattern>
     </servlet-mapping>
     
         <!-- RegisterServlet Configuration -->
@@ -120,4 +120,15 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
     
+    <!-- LogoutServlet Configuration -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

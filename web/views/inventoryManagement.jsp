@@ -45,5 +45,10 @@
             }
         %>
     </table>
+            
+    <form action="<%=request.getContextPath()%>/logout" method="post">
+        <input type="submit" value="Log Out">
+    </form>
+
 </body>
 </html>

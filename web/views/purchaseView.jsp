@@ -51,5 +51,10 @@
             <input type="submit" value="Purchase">
         </form>
         <p><%=request.getAttribute("message") !=null ? request.getAttribute("message") :""%></p>
+            
+    <form action="<%=request.getContextPath()%>/logout" method="post">
+        <input type="submit" value="Log Out">
+    </form>
+
     </body>
 </html>
