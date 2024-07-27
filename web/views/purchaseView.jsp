@@ -13,10 +13,35 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Purchase item</title>
+    <script>
+            function updateSummary() {
+                let totalPrice = 0;
+                let checkboxes = document.querySelectorAll('input[name="foodId"]:checked');
+                checkboxes.forEach(function(checkbox) {
+                    let foodId = checkbox.value;
+                    let quantityInput = document.querySelector('input[name="quantity_' + foodId + '"]');
+                    let priceInput = document.querySelector('input[name="price_' + foodId + '"]');
+                    let quantity = parseInt(quantityInput.value) || 0;
+                    let price = parseFloat(priceInput.value) || 0;
+                    totalPrice += quantity * price;
+                });
+
+                let credit = parseFloat(document.getElementById('credit').innerText) || 0;
+                let actualPayment = totalPrice - credit;
+
+                document.getElementById('totalPrice').innerText = totalPrice.toFixed(2);
+                document.getElementById('actualPayment').innerText = actualPayment.toFixed(2);
+            }
+
+            function handlePurchase() {
+                
+                return true;
+            }
+        </script>    
     </head>
     <body> 
         <h1>Purchase items</h1>
-        <form method ="post" action ="Consumer">
+        <form method ="post" action ="Consumer" onsubmit="return handlePurchase()">
             <table border ="1">
                 <tr>
                     <th>Food ID</th>
@@ -39,17 +64,34 @@
                     <td><%=item.getPrice() %></td>
                     <td><%=purchasePrice %></td>
                     <td>
-                        <input type ="number" name="quantity_<%=item.getFoodId()%>" min="1" max ="<%=item.getQuantity() %>">
+                        <input type ="number" name="quantity_<%=item.getFoodId()%>" min="1" max ="<%=item.getQuantity() %>" oninput="updateSummary()">
                         <input type ="hidden" name="price_<%= item.getFoodId()%>" value ="<%=purchasePrice %>"> 
                         <input type="hidden" name="foodName_<%= item.getFoodId() %>" value="<%= item.getFoodName() %>">
                     </td>
-                    <td><input type="checkbox" name="foodId" value="<%= item.getFoodId() %>"></td>
+                    <td><input type="checkbox" name="foodId" value="<%= item.getFoodId() %>" onclick="updateSummary()"></td>
                 </tr>
                 <% } %>
             </table>
-            <input type="hidden" name="userId" value="1"><!--just static for test, it will be add session to get real user-->
+            <input type="hidden" name="userId" value="1">
+            <!--<input type="hidden" name="userId" value="<%= session.getAttribute("userId") %>">dynamic to get userID-->
+            <h2>Summary</h2>
+            <table border="1">
+                <tr>
+                    <th>Total Price</th>
+                    <td id="totalPrice"><%= request.getAttribute("totalPrice") != null ? request.getAttribute("totalPrice") : 0 %></td>
+                </tr>
+                <tr>
+                    <th>Credit</th>
+                    <td id="credit"><%= request.getAttribute("credit") != null ? request.getAttribute("credit") : 0 %></td>
+                </tr>
+                <tr>
+                    <th>Actual Payment</th>
+                    <td id="actualPayment"><%= request.getAttribute("actualPayment") != null ? request.getAttribute("actualPayment") : 0 %></td>
+                </tr>
+            </table>
             <input type="submit" value="Purchase">
         </form>
-        <p><%=request.getAttribute("message") !=null ? request.getAttribute("message") :""%></p>
+    </table>
+        <p id="message"><%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %></p>
     </body>
 </html>

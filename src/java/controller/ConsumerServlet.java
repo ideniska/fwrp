@@ -16,8 +16,10 @@ import java.util.List;
 import model.TransactionItemDTO;
 import model.UserTransactionDTO;
 import businesslayer.ConsumerBusinessLogic;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.UserDTO;
 
 /**
  * Servlet implementation class ConsumerServlet.
@@ -27,7 +29,6 @@ import java.util.logging.Logger;
  * author: Yuchen Wang
  */
 
-@WebServlet("/consumer")
 public class ConsumerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ConsumerBusinessLogic consumerBusinessLogic;
@@ -51,17 +52,31 @@ public class ConsumerServlet extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            InventoryDaoImpl dao = new InventoryDaoImpl();
-            List<InventoryDTO> inventoryList = dao.getFilteredInventory();
-            request.setAttribute("inventoryList", inventoryList);
-            request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ConsumerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        List<InventoryDTO> inventoryList = consumerBusinessLogic.getFilteredInventory();
+        request.setAttribute("inventoryList", inventoryList);
+        
+       
+//        to get user ID by static, will be change to session=================
+        String userIdStr = "1";
+        
+        if (userIdStr != null && !userIdStr.isEmpty()) {
+            int userId = Integer.parseInt(userIdStr);
+            
+         
+            UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
+            
+            request.setAttribute("credit", user.getCredit());
+            request.setAttribute("user", user); // 添加用户对象到请求
+        } else {
+            request.setAttribute("credit", 5.0); // 如果用户 ID 为空，默认信用值为 0
         }
+        
+        request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
     }
+}
     
      /**
      * Handles the HTTP POST method.
@@ -74,56 +89,73 @@ public class ConsumerServlet extends HttpServlet {
      */
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
-        String[] foodIds = request.getParameterValues("foodId");
+    int userId = Integer.parseInt(request.getParameter("userId"));
+    String[] foodIds = request.getParameterValues("foodId");
 
-        if (foodIds == null) {
-            request.setAttribute("message", "No items selected for purchase.");
-            doGet(request, response);
-            return;
-        }
+    System.out.println("userId: " + userId);
+    System.out.println("foodIds: " + (foodIds != null ? Arrays.toString(foodIds) : "null"));
 
-        List<TransactionItemDTO> transactionItems = new ArrayList<>();
-        UserTransactionDTO userTransaction = new UserTransactionDTO();
-        userTransaction.setUserId(userId);
-        userTransaction.setTransactionDate(new Date());
+    if (foodIds == null) {
+        request.setAttribute("message", "No items selected for purchase.");
+        doGet(request, response);
+        return;
+    }
 
-       try {
-           
-            consumerBusinessLogic.addUserTransaction(userTransaction);
-            int userTransactionId = userTransaction.getUserTransactionId();
-            System.out.println(userTransactionId);
+    List<TransactionItemDTO> transactionItems = new ArrayList<>();
+    UserTransactionDTO userTransaction = new UserTransactionDTO();
+    userTransaction.setUserId(userId);
+    userTransaction.setTransactionDate(new Date());
+    
+    double totalPrice = 0.0;
 
-            for (String foodIdStr : foodIds) {
-                int foodId = Integer.parseInt(foodIdStr);
-                String quantityStr = request.getParameter("quantity_" + foodId);
-                String priceStr = request.getParameter("price_" + foodId);
-               
+    try {
+        consumerBusinessLogic.addUserTransaction(userTransaction);
+        int userTransactionId = userTransaction.getUserTransactionId();
+        
+        for (String foodIdStr : foodIds) {
+            int foodId = Integer.parseInt(foodIdStr);
+            String quantityStr = request.getParameter("quantity_" + foodId);
+            String priceStr = request.getParameter("price_" + foodId);
 
-                if (quantityStr == null || quantityStr.isEmpty() || priceStr == null || priceStr.isEmpty()) {
-                    request.setAttribute("message", "Quantity or price is missing for foodId: " + foodId);
-                    doGet(request, response);
-                    return;
-                }
-
-                int quantity = Integer.parseInt(quantityStr);
-                double price = Double.parseDouble(priceStr);
-
-                InventoryDTO item = consumerBusinessLogic.getInventoryById(foodId);
-                item.setQuantity(item.getQuantity() - quantity);
-
-
-                consumerBusinessLogic.updateInventory(item);
-
-                TransactionItemDTO transactionItem = new TransactionItemDTO();
-                transactionItem.setUserTransactionId(userTransactionId);
-                transactionItem.setFoodId(foodId);
-                transactionItem.setQuantity(quantity);
-                transactionItem.setPrice(price);
-                consumerBusinessLogic.addTransactionItem(transactionItem);
+            if (quantityStr == null || quantityStr.isEmpty() || priceStr == null || priceStr.isEmpty()) {
+                request.setAttribute("message", "Quantity or price is missing for foodId: " + foodId);
+                doGet(request, response);
+                return;
             }
 
-            request.setAttribute("message", "Purchase successful!");
+            int quantity = Integer.parseInt(quantityStr);
+            double price = Double.parseDouble(priceStr);
+            totalPrice += price * quantity;
+
+            InventoryDTO item = consumerBusinessLogic.getInventoryById(foodId);
+            item.setQuantity(item.getQuantity() - quantity);
+            consumerBusinessLogic.updateInventory(item);
+
+//            get credit and actualPayment
+            UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
+            double credit = user.getCredit();
+            double actualPayment = totalPrice - credit;
+            
+            TransactionItemDTO transactionItem = new TransactionItemDTO();
+            transactionItem.setUserTransactionId(userTransactionId);
+            transactionItem.setFoodId(foodId);
+            transactionItem.setQuantity(quantity);
+            transactionItem.setPrice(actualPayment);//change to actualPayment from price
+            consumerBusinessLogic.addTransactionItem(transactionItem);
+        }
+
+        UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
+        double credit = user.getCredit();
+        double actualPayment = totalPrice - credit;
+        double newCredit = actualPayment * 0.01;
+        user.setCredit(newCredit);
+        consumerBusinessLogic.updateUserCredit(user);
+
+//        request.setAttribute("totalPrice", totalPrice);
+//        request.setAttribute("credit", credit);
+//        request.setAttribute("actualPayment", actualPayment);
+        request.setAttribute("message", "Purchase successful!");
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             request.setAttribute("message", "An error occurred.");
