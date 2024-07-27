@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import model.InventoryDTO;
 import businesslayer.RetailerBusinessLogic;
+import model.UserType;
+import util.AuthUtils;
 
 
 public class AddProductServlet extends HttpServlet {
@@ -19,6 +21,10 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.RETAILER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
         int latestFoodId = 0;
         try {
@@ -33,6 +39,10 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.RETAILER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
 
         int foodId = Integer.parseInt(request.getParameter("foodId"));

@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import model.InventoryDTO;
 import businesslayer.RetailerBusinessLogic;
 import javax.servlet.annotation.WebServlet;
+import model.UserType;
+import util.AuthUtils;
 /**
  *
  * @author denissakhno
@@ -21,6 +23,10 @@ public class RetailerServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.RETAILER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
         List<InventoryDTO> inventory = null;
 

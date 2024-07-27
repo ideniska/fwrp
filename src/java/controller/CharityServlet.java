@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.InventoryDTO;
+import model.UserType;
+import util.AuthUtils;
 
 /**
  *
@@ -34,6 +36,10 @@ public class CharityServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.CHARITY)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         try {
             List<InventoryDTO> inventoryItems = charityBusinessLogic.getCharityInventory();
             request.setAttribute("inventoryItems", inventoryItems);
@@ -46,6 +52,10 @@ public class CharityServlet extends HttpServlet {
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.CHARITY)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();

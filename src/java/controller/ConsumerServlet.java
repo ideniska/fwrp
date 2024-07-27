@@ -18,6 +18,8 @@ import model.UserTransactionDTO;
 import businesslayer.ConsumerBusinessLogic;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.UserType;
+import util.AuthUtils;
 
 /**
  * Servlet implementation class ConsumerServlet.
@@ -27,7 +29,6 @@ import java.util.logging.Logger;
  * author: Yuchen Wang
  */
 
-@WebServlet("/consumer")
 public class ConsumerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private ConsumerBusinessLogic consumerBusinessLogic;
@@ -50,6 +51,10 @@ public class ConsumerServlet extends HttpServlet {
      */
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.CUSTOMER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         try {
             InventoryDaoImpl dao = new InventoryDaoImpl();
             List<InventoryDTO> inventoryList = dao.getFilteredInventory();
@@ -74,6 +79,10 @@ public class ConsumerServlet extends HttpServlet {
      */
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.CUSTOMER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         int userId = Integer.parseInt(request.getParameter("userId"));
         String[] foodIds = request.getParameterValues("foodId");
 

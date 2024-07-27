@@ -34,16 +34,15 @@ public class LoginLogicServlet extends HttpServlet {
             request.getSession().setAttribute("user", user);
             switch (user.getUserType()) {
                 case 1:
-                    response.sendRedirect(request.getContextPath() + "/Consumer");
+                    response.sendRedirect(request.getContextPath() + "/consumer");
                     break;
                 case 2:
-                    response.sendRedirect(request.getContextPath() + "/Charity");
+                    response.sendRedirect(request.getContextPath() + "/charity");
                     break;
                 case 3:
                     response.sendRedirect(request.getContextPath() + "/retailer");
                     break;
                 default:
-                    //TODO add servlet for jsp for cleaner url
                     response.sendRedirect(request.getContextPath() + "/login");
                     break;
             }
