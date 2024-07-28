@@ -34,6 +34,8 @@ CREATE TABLE Inventory (
     surplus INT,
     price DECIMAL(10, 2),
     user_id INT,
+    food_preference ENUM('Vegan', 'Not Vegan'),
+    location ENUM('Ottawa', 'Kanata'),
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
 

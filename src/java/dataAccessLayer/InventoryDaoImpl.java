@@ -80,7 +80,8 @@ public class InventoryDaoImpl {
      * @param inventory the InventoryDTO object to be added
      */
     public void addInventory(InventoryDTO inventory, int userId) throws ClassNotFoundException {
-        String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price, user_id) VALUES(?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price, user_id, food_preference, location) " +
+                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -91,6 +92,9 @@ public class InventoryDaoImpl {
             pstmt.setInt(4, inventory.getSurplus());
             pstmt.setDouble(5, inventory.getPrice());
             pstmt.setInt(6, userId);
+            pstmt.setString(7, inventory.getFoodPreference());
+            pstmt.setString(8, inventory.getLocation());
+            
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

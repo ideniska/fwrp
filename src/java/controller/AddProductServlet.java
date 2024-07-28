@@ -52,6 +52,8 @@ public class AddProductServlet extends HttpServlet {
         String expDateString = request.getParameter("expDate");
         double price = Double.parseDouble(request.getParameter("price"));
         int surplus = Integer.parseInt(request.getParameter("surplus"));
+        String foodPreference = request.getParameter("foodPreference");
+        String location = request.getParameter("location");
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date expDate = null;
@@ -76,6 +78,8 @@ public class AddProductServlet extends HttpServlet {
         newItem.setExpDate(expDate);
         newItem.setPrice(price);
         newItem.setSurplus(surplus);
+        newItem.setFoodPreference(foodPreference);
+        newItem.setLocation(location);
 
         UserDTO user = (UserDTO) request.getSession().getAttribute("user");
         int userId = user.getUserId();
