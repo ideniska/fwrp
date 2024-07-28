@@ -20,7 +20,11 @@
             <option value="2">Charity</option>
             <option value="3">Retailer</option>
         </select><br>
-        Location: <input type="text" name="location"><br>
+        Location: 
+        <select name="location">
+            <option value="Ottawa">Ottawa</option>
+            <option value="Kanata">Kanata</option>
+        </select><br>
         Communication: 
         <select name="communication">
             <option value="1">No</option>
@@ -28,7 +32,11 @@
             <option value="3">Email</option>
             <option value="4">Both</option>
         </select><br>
-        Food Preference: <input type="text" name="food_preference"><br>
+        Food Preference: 
+        <select name="food_preference">
+            <option value="Vegan">Vegan</option>
+            <option value="Not Vegan">Not Vegan</option>
+        </select><br>
         Notifications: 
         <select name="notifications">
             <option value="1">No</option>
