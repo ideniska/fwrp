@@ -45,28 +45,41 @@ public class UserDaoImpl {
         return users;
     }
 
-    public void addUser(UserDTO user) throws ClassNotFoundException {
-        String query = "INSERT INTO User (first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        try (Connection con = DataSource.getConnection();
-             PreparedStatement pstmt = con.prepareStatement(query)) {
+        public boolean addUser(UserDTO user) throws ClassNotFoundException {
+        String checkQuery = "SELECT email FROM User WHERE email = ?";
+        String insertQuery = "INSERT INTO User (first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            pstmt.setString(1, user.getFirstName());
-            pstmt.setString(2, user.getLastName());
-            pstmt.setString(3, user.getPhone());
-            pstmt.setString(4, user.getAddress());
-            pstmt.setString(5, user.getEmail());
-            pstmt.setString(6, user.getPassword());
-            pstmt.setInt(7, user.getUserType());
-            pstmt.setString(8, user.getLocation());
-            pstmt.setInt(9, user.getCommunication());
-            pstmt.setString(10, user.getFoodPreference());
-            pstmt.setInt(11, user.getNotifications());
-            pstmt.executeUpdate();
+        try (Connection con = DataSource.getConnection();
+             PreparedStatement checkPstmt = con.prepareStatement(checkQuery)) {
+
+            checkPstmt.setString(1, user.getEmail());
+            try (ResultSet rs = checkPstmt.executeQuery()) {
+                if (rs.next()) {
+                    return false; // Email already exists
+                }
+            }
+
+            try (PreparedStatement insertPstmt = con.prepareStatement(insertQuery)) {
+                insertPstmt.setString(1, user.getFirstName());
+                insertPstmt.setString(2, user.getLastName());
+                insertPstmt.setString(3, user.getPhone());
+                insertPstmt.setString(4, user.getAddress());
+                insertPstmt.setString(5, user.getEmail());
+                insertPstmt.setString(6, user.getPassword());
+                insertPstmt.setInt(7, user.getUserType());
+                insertPstmt.setString(8, user.getLocation());
+                insertPstmt.setInt(9, user.getCommunication());
+                insertPstmt.setString(10, user.getFoodPreference());
+                insertPstmt.setInt(11, user.getNotifications());
+                insertPstmt.executeUpdate();
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
+
 
     public UserDTO authenticateUser(String email, String password) {
         UserDTO user = null;

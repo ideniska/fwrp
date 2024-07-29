@@ -140,4 +140,14 @@
         <url-pattern>/loginError</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>RegisterErrorServlet</servlet-name>
+        <servlet-class>controller.RegisterErrorServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>RegisterErrorServlet</servlet-name>
+        <url-pattern>/registerError</url-pattern>
+    </servlet-mapping>
+    
 </web-app>

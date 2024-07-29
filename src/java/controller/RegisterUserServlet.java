@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import java.io.IOException;
@@ -49,9 +45,14 @@ public class RegisterUserServlet extends HttpServlet {
         // Use UserDaoImpl to add the user to the database
         UserDaoImpl userDao = new UserDaoImpl();
         try {
-            userDao.addUser(user);
-            // Redirect to a success page or another page as needed
-            response.sendRedirect(request.getContextPath() + "/login");
+            boolean userAdded = userDao.addUser(user);
+            if (userAdded) {
+                // Redirect to a success page or another page as needed
+                response.sendRedirect(request.getContextPath() + "/login");
+            } else {
+                // Email already exists, redirect to the error page
+                response.sendRedirect(request.getContextPath() + "/registerError");
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             // Handle the exception, possibly redirect to an error page

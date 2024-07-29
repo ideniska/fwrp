@@ -12,7 +12,7 @@
         Org Name: <input type="text" name="org_name"><br>
         Address: <input type="text" name="address"><br>
         Phone: <input type="text" name="phone"><br>
-        Email: <input type="text" name="email" required><br>
+        Email: <input type="email" name="email" required title="Please enter a valid email address"><br>
         Password: <input type="password" name="password" required><br>
         User Type: 
         <select name="user_type">
