@@ -32,12 +32,14 @@ public class LoginLogicServlet extends HttpServlet {
 
         if (user != null) {
             request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("userId", user.getUserId()); // Store userId in session
+
             switch (user.getUserType()) {
                 case 1:
                     response.sendRedirect(request.getContextPath() + "/Consumer");
                     break;
                 case 2:
-                    response.sendRedirect(request.getContextPath() + "/Charity");
+                    response.sendRedirect(request.getContextPath() + "/charity");
                     break;
                 case 3:
                     response.sendRedirect(request.getContextPath() + "/retailer");

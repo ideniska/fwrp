@@ -34,6 +34,7 @@ public class CharityServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CharityBusinessLogic charityBusinessLogic;
     private static final Logger logger = Logger.getLogger(CharityServlet.class.getName());
+    
 
     @Override
     public void init() {
@@ -54,7 +55,7 @@ public class CharityServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        Integer userId = (Integer) request.getSession().getAttribute("userId"); // Retrieve userId from session
         String[] foodIds = request.getParameterValues("foodId");
 
         if (foodIds == null) {
