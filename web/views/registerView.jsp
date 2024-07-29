@@ -7,13 +7,13 @@
 <body>
     <h1>Register</h1>
     <form action="<%=request.getContextPath()%>/registerUser" method="post">
-        First Name: <input type="text" name="first_name"><br>
-        Last Name: <input type="text" name="last_name"><br>
+        First Name: <input type="text" name="first_name" required><br>
+        Last Name: <input type="text" name="last_name" required><br>
         Org Name: <input type="text" name="org_name"><br>
         Address: <input type="text" name="address"><br>
         Phone: <input type="text" name="phone"><br>
-        Email: <input type="text" name="email"><br>
-        Password: <input type="password" name="password"><br>
+        Email: <input type="text" name="email" required><br>
+        Password: <input type="password" name="password" required><br>
         User Type: 
         <select name="user_type">
             <option value="1">Customer</option>

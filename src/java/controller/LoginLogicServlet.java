@@ -27,7 +27,7 @@ public class LoginLogicServlet extends HttpServlet {
         UserDTO user = userDao.authenticateUser(email, password);
 
         if (user != null) {
-            request.getSession().setAttribute("user", user); // Store the entire UserDTO object
+            request.getSession().setAttribute("user", user);
             switch (user.getUserType()) {
                 case 1:
                     response.sendRedirect(request.getContextPath() + "/consumer");
@@ -43,7 +43,7 @@ public class LoginLogicServlet extends HttpServlet {
                     break;
             }
         } else {
-            response.sendRedirect("loginView.jsp?error=invalid");
+            response.sendRedirect(request.getContextPath() + "/loginError");
         }
     }
 }
