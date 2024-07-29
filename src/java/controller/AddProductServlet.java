@@ -1,9 +1,13 @@
 package controller;
 
 import businesslayer.RetailerBusinessLogic;
+import dataAccessLayer.DataSource;
 import model.InventoryDTO;
 import model.UserDTO;
 import model.UserType;
+import notification.EmailObserver;
+import notification.NotificationService;
+import notification.SMSObserver;
 import util.AuthUtils;
 
 import javax.servlet.ServletException;
@@ -15,9 +19,22 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddProductServlet extends HttpServlet {
+
+    private NotificationService notificationService;
+
+    public AddProductServlet() {
+        this.notificationService = new NotificationService();
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -92,6 +109,53 @@ public class AddProductServlet extends HttpServlet {
             return;
         }
 
+        // Notification logic
+        notificationService.clearObservers();  // Clear previous observers before adding new ones
+        int smsCount = 0;
+        int emailCount = 0;
+
+        try (Connection connection = DataSource.getConnection()) {
+            String sql = "SELECT * FROM User WHERE location = ? AND food_preference = ? AND user_type = 1";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, location);
+                preparedStatement.setString(2, foodPreference);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int notifications = resultSet.getInt("notifications");
+                        String email = resultSet.getString("email");
+                        String phone = resultSet.getString("phone");
+
+                        if (notifications == 2) {  // PHONE
+                            notificationService.registerObserver(new SMSObserver(phone));
+                            smsCount++;
+                        } else if (notifications == 3) {  // EMAIL
+                            notificationService.registerObserver(new EmailObserver(email));
+                            emailCount++;
+                        } else if (notifications == 4) {  // BOTH
+                            notificationService.registerObserver(new SMSObserver(phone));
+                            notificationService.registerObserver(new EmailObserver(email));
+                            smsCount++;
+                            emailCount++;
+                        } else {
+                            log("Unknown notification type for user: " + email);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        String message = "New product added: " + foodName + " (" + foodPreference + ", " + location + ")";
+        System.out.println(message);
+
+        // Print out the number of notifications sent
+        System.out.println("Notifications sent: ");
+        System.out.println("SMS: " + smsCount);
+        System.out.println("Email: " + emailCount);
+
         response.sendRedirect("retailer");
     }
+
 }
