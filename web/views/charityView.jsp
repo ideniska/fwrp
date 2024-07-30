@@ -35,7 +35,7 @@
                         boolean itemsAvailable = false;
                         for (InventoryDTO item : charityList) {
                             if (item.getQuantity() > 0) {
-                                double charityPrice = item.getPrice() * 0.5;
+                                double charityPrice = item.getPrice() * 0;
                                 itemsAvailable = true;
                 %>
                                 <tr>

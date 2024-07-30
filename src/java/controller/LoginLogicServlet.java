@@ -36,7 +36,7 @@ public class LoginLogicServlet extends HttpServlet {
 
             switch (user.getUserType()) {
                 case 1:
-                    response.sendRedirect(request.getContextPath() + "/Consumer");
+                    response.sendRedirect(request.getContextPath() + "/consumer");
                     break;
                 case 2:
                     response.sendRedirect(request.getContextPath() + "/charity");
