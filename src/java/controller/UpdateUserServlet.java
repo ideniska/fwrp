@@ -41,7 +41,7 @@ public class UpdateUserServlet extends HttpServlet {
             user.setFoodPreference(foodPreference);
             user.setNotifications(notifications);
         } else if (user.getUserType() == 2) {
-            user.setOrgName(orgName);  // Set orgName for Charities
+            user.setOrgName(orgName);
             user.setNotifications(notifications);
         } else if (user.getUserType() == 3) {
             // For Retailers, no additional fields to set

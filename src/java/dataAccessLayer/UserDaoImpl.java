@@ -151,7 +151,7 @@ public class UserDaoImpl {
     }
 
     public void updateUser(UserDTO user) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET first_name = ?, last_name = ?, phone = ?, address = ?, org_name = ? WHERE user_id = ?";
+        String query = "UPDATE User SET first_name = ?, last_name = ?, phone = ?, address = ?, org_name = ?, location = ?, communication = ?, food_preference = ?, notifications = ? WHERE user_id = ?";
 
         try (Connection con = DataSource.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -161,10 +161,16 @@ public class UserDaoImpl {
             pstmt.setString(3, user.getPhone());
             pstmt.setString(4, user.getAddress());
             pstmt.setString(5, user.getOrgName());
-            pstmt.setInt(6, user.getUserId());
+            pstmt.setString(6, user.getLocation());
+            pstmt.setInt(7, user.getCommunication());
+            pstmt.setString(8, user.getFoodPreference());
+            pstmt.setInt(9, user.getNotifications());
+            pstmt.setInt(10, user.getUserId());
+
             pstmt.executeUpdate();
         }
     }
+
 
     public UserDTO getUserCreditById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
