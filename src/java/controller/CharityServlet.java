@@ -5,12 +5,9 @@
 package controller;
 
 import businesslayer.CharityBusinessLogic;
-import businesslayer.CheckoutBusinessLogic;
-import static com.mysql.cj.conf.PropertyKey.logger;
 import model.InventoryDTO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.TransactionItemDTO;
 import model.UserTransactionDTO;
