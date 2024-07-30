@@ -17,7 +17,7 @@ public class RegisterUserServlet extends HttpServlet {
         // Retrieve form parameters
         String firstName = request.getParameter("first_name");
         String lastName = request.getParameter("last_name");
-        String orgName = request.getParameter("org_name"); // Not used in the UserDTO
+        String orgName = request.getParameter("org_name");
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         String email = request.getParameter("email");
@@ -32,6 +32,7 @@ public class RegisterUserServlet extends HttpServlet {
         UserDTO user = new UserDTO();
         user.setFirstName(firstName);
         user.setLastName(lastName);
+        user.setOrgName(orgName);
         user.setAddress(address);
         user.setPhone(phone);
         user.setEmail(email);

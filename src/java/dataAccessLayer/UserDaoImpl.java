@@ -1,13 +1,12 @@
 package dataAccessLayer;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.sql.PreparedStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.UserDTO;
-
 
 public class UserDaoImpl {
 
@@ -16,7 +15,7 @@ public class UserDaoImpl {
 
     public List<UserDTO> getAllUsers() throws SQLException, ClassNotFoundException {
         List<UserDTO> users = new ArrayList<>();
-        String query = "SELECT user_id, first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications FROM User ORDER BY user_id";
+        String query = "SELECT user_id, first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications, org_name FROM User ORDER BY user_id";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query);
@@ -36,6 +35,7 @@ public class UserDaoImpl {
                 user.setCommunication(rs.getInt("communication"));
                 user.setFoodPreference(rs.getString("food_preference"));
                 user.setNotifications(rs.getInt("notifications"));
+                user.setOrgName(rs.getString("org_name"));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -45,9 +45,9 @@ public class UserDaoImpl {
         return users;
     }
 
-        public boolean addUser(UserDTO user) throws ClassNotFoundException {
+    public boolean addUser(UserDTO user) throws ClassNotFoundException {
         String checkQuery = "SELECT email FROM User WHERE email = ?";
-        String insertQuery = "INSERT INTO User (first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO User (first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications, org_name) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement checkPstmt = con.prepareStatement(checkQuery)) {
@@ -71,6 +71,7 @@ public class UserDaoImpl {
                 insertPstmt.setInt(9, user.getCommunication());
                 insertPstmt.setString(10, user.getFoodPreference());
                 insertPstmt.setInt(11, user.getNotifications());
+                insertPstmt.setString(12, user.getOrgName());
                 insertPstmt.executeUpdate();
                 return true;
             }
@@ -79,7 +80,6 @@ public class UserDaoImpl {
         }
         return false;
     }
-
 
     public UserDTO authenticateUser(String email, String password) {
         UserDTO user = null;
@@ -104,6 +104,7 @@ public class UserDaoImpl {
                     user.setCommunication(rs.getInt("communication"));
                     user.setFoodPreference(rs.getString("food_preference"));
                     user.setNotifications(rs.getInt("notifications"));
+                    user.setOrgName(rs.getString("org_name"));
                 }
             }
         } catch (Exception e) {
@@ -111,10 +112,10 @@ public class UserDaoImpl {
         }
         return user;
     }
-    
+
     public UserDTO getUserById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
-        String query = "SELECT user_id, first_name, last_name, phone, address FROM User WHERE user_id = ?";
+        String query = "SELECT user_id, first_name, last_name, phone, address, org_name FROM User WHERE user_id = ?";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -128,14 +129,15 @@ public class UserDaoImpl {
                     user.setLastName(rs.getString("last_name"));
                     user.setPhone(rs.getString("phone"));
                     user.setAddress(rs.getString("address"));
+                    user.setOrgName(rs.getString("org_name"));
                 }
             }
         }
         return user;
     }
-    
+
     public void updateUser(UserDTO user) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET first_name = ?, last_name = ?, phone = ?, address = ?, location = ?, communication = ?, food_preference = ?, notifications = ? WHERE user_id = ?";
+        String query = "UPDATE User SET first_name = ?, last_name = ?, phone = ?, address = ?, org_name = ? WHERE user_id = ?";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -144,13 +146,9 @@ public class UserDaoImpl {
             pstmt.setString(2, user.getLastName());
             pstmt.setString(3, user.getPhone());
             pstmt.setString(4, user.getAddress());
-            pstmt.setString(5, user.getLocation());
-            pstmt.setInt(6, user.getCommunication());
-            pstmt.setString(7, user.getFoodPreference());
-            pstmt.setInt(8, user.getNotifications());
-            pstmt.setInt(9, user.getUserId());
+            pstmt.setString(5, user.getOrgName());
+            pstmt.setInt(6, user.getUserId());
             pstmt.executeUpdate();
         }
     }
-
 }

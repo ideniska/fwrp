@@ -16,7 +16,8 @@ CREATE TABLE User (
     location VARCHAR(255),
     communication INT,
     food_preference VARCHAR(255),
-    notifications INT
+    notifications INT,
+    org_name VARCHAR(255)
 );
 
 CREATE TABLE UserTransaction (

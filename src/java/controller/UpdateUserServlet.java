@@ -14,6 +14,7 @@ import java.sql.SQLException;
 public class UpdateUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
@@ -29,6 +30,7 @@ public class UpdateUserServlet extends HttpServlet {
         Integer communication = Integer.valueOf(request.getParameter("communication"));
         String foodPreference = request.getParameter("foodPreference");
         Integer notifications = request.getParameter("notifications") != null ? Integer.valueOf(request.getParameter("notifications")) : null;
+        String orgName = request.getParameter("org_name");
 
         user.setAddress(address);
         user.setPhone(phone);
@@ -39,7 +41,10 @@ public class UpdateUserServlet extends HttpServlet {
             user.setFoodPreference(foodPreference);
             user.setNotifications(notifications);
         } else if (user.getUserType() == 2) {
+            user.setOrgName(orgName);  // Set orgName for Charities
             user.setNotifications(notifications);
+        } else if (user.getUserType() == 3) {
+            // For Retailers, no additional fields to set
         }
 
         UserDaoImpl userDao = new UserDaoImpl();
