@@ -27,7 +27,6 @@ public class UpdateUserServlet extends HttpServlet {
         String address = request.getParameter("address");
         String phone = request.getParameter("phone");
         String location = request.getParameter("location");
-        Integer communication = Integer.valueOf(request.getParameter("communication"));
         String foodPreference = request.getParameter("foodPreference");
         Integer notifications = request.getParameter("notifications") != null ? Integer.valueOf(request.getParameter("notifications")) : null;
         String orgName = request.getParameter("org_name");
@@ -35,16 +34,11 @@ public class UpdateUserServlet extends HttpServlet {
         user.setAddress(address);
         user.setPhone(phone);
         user.setLocation(location);
-        user.setCommunication(communication);
+        user.setFoodPreference(foodPreference);
+        user.setNotifications(notifications);
 
-        if (user.getUserType() == 1) {
-            user.setFoodPreference(foodPreference);
-            user.setNotifications(notifications);
-        } else if (user.getUserType() == 2) {
+        if (user.getUserType() == 2) {
             user.setOrgName(orgName);
-            user.setNotifications(notifications);
-        } else if (user.getUserType() == 3) {
-            // For Retailers, no additional fields to set
         }
 
         UserDaoImpl userDao = new UserDaoImpl();
@@ -57,4 +51,5 @@ public class UpdateUserServlet extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/manageProfile");
     }
+
 }

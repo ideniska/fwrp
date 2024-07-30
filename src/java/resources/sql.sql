@@ -14,11 +14,10 @@ CREATE TABLE User (
     password VARCHAR(255),
     user_type INT,
     location VARCHAR(255),
-    communication INT,
     food_preference VARCHAR(255),
     notifications INT,
     org_name VARCHAR(255),
-credit DECIMAL(10, 2) 
+    credit DECIMAL(10, 2) 
 );
 
 
@@ -55,3 +54,4 @@ CREATE TABLE TransactionItem (
 );
 
 select * from inventory;
+select * from user;

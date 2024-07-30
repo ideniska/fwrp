@@ -18,7 +18,6 @@ public class UserDTO {
     private String password;
     private int userType;
     private String location;
-    private Integer communication;
     private String foodPreference;
     private Integer notifications;
     private String orgName;
@@ -95,14 +94,6 @@ public class UserDTO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Integer getCommunication() {
-        return communication;
-    }
-
-    public void setCommunication(Integer communication) {
-        this.communication = communication;
     }
 
     public String getFoodPreference() {
