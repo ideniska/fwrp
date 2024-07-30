@@ -57,7 +57,8 @@ public class AddProductServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
-        Integer userId = (Integer) request.getSession().getAttribute("userId"); 
+
+        Integer userId = (Integer) request.getSession().getAttribute("userId");
 
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
 
@@ -95,7 +96,7 @@ public class AddProductServlet extends HttpServlet {
         newItem.setSurplus(surplus);
         newItem.setFoodPreference(foodPreference);
         newItem.setLocation(location);
-        newItem.setUserId(userId); 
+        newItem.setUserId(userId);
 
         try {
             retailerBusinessLogic.addInventory(newItem, userId);
@@ -105,52 +106,58 @@ public class AddProductServlet extends HttpServlet {
             return;
         }
 
-    // Notification logic
-    notificationService.clearObservers();  // Clear previous observers before adding new ones
-    int smsCount = 0;
-    int emailCount = 0;
+        // Notification logic
+        notificationService.clearObservers();  // Clear previous observers before adding new ones
+        int smsCount = 0;
+        int emailCount = 0;
 
-    try (Connection connection = DataSource.getConnection()) {
-        String sql = "SELECT * FROM User WHERE location = ? AND (user_type = 1 AND food_preference = ? OR user_type = 2)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, location);
-            preparedStatement.setString(2, foodPreference);
+        try (Connection connection = DataSource.getConnection()) {
+            String sql = "SELECT * FROM User WHERE location = ? AND (user_type = 1 AND food_preference = ? OR user_type = 2)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setString(1, location);
+                preparedStatement.setString(2, foodPreference);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    int notifications = resultSet.getInt("notifications");
-                    String email = resultSet.getString("email");
-                    String phone = resultSet.getString("phone");
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int notifications = resultSet.getInt("notifications");
+                        String email = resultSet.getString("email");
+                        String phone = resultSet.getString("phone");
+                        int userType = resultSet.getInt("user_type");
 
-                    if (notifications == 2) {  // PHONE
-                        notificationService.registerObserver(new SMSObserver(phone));
-                        smsCount++;
-                    } else if (notifications == 3) {  // EMAIL
-                        notificationService.registerObserver(new EmailObserver(email));
-                        emailCount++;
-                    } else if (notifications == 4) {  // BOTH
-                        notificationService.registerObserver(new SMSObserver(phone));
-                        notificationService.registerObserver(new EmailObserver(email));
-                        smsCount++;
-                        emailCount++;
-                    } else {
-                        log("Unknown notification type for user: " + email);
+                        // Skip charity notifications if surplusValue is not 1
+                        if (userType == 2 && surplus != 1) {
+                            continue;
+                        }
+
+                        if (notifications == 2) {  // PHONE
+                            notificationService.registerObserver(new SMSObserver(phone));
+                            smsCount++;
+                        } else if (notifications == 3) {  // EMAIL
+                            notificationService.registerObserver(new EmailObserver(email));
+                            emailCount++;
+                        } else if (notifications == 4) {  // BOTH
+                            notificationService.registerObserver(new SMSObserver(phone));
+                            notificationService.registerObserver(new EmailObserver(email));
+                            smsCount++;
+                            emailCount++;
+                        } else {
+                            log("Unknown notification type for user: " + email);
+                        }
                     }
                 }
             }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace();
-    }
 
-    String message = "New product added: " + foodName + " (" + foodPreference + ", " + location + ")";
-    System.out.println(message);
+        String message = "New product added: " + foodName + " (" + foodPreference + ", " + location + ")";
+        System.out.println(message);
 
-    // Print out the number of notifications sent
-    System.out.println("Notifications sent: ");
-    System.out.println("SMS: " + smsCount);
-    System.out.println("Email: " + emailCount);
+        // Print out the number of notifications sent
+        System.out.println("Notifications sent: ");
+        System.out.println("SMS: " + smsCount);
+        System.out.println("Email: " + emailCount);
 
-    response.sendRedirect("retailer");
+        response.sendRedirect("retailer");
     }
 }
