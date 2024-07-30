@@ -9,40 +9,14 @@
     <form action="<%=request.getContextPath()%>/registerUser" method="post">
         First Name: <input type="text" name="first_name" required><br>
         Last Name: <input type="text" name="last_name" required><br>
-        Org Name: <input type="text" name="org_name"><br>
-        Address: <input type="text" name="address"><br>
-        Phone: <input type="text" name="phone"><br>
         Email: <input type="email" name="email" required title="Please enter a valid email address"><br>
         Password: <input type="password" name="password" required><br>
+        Confirm Password: <input type="password" name="confirm_password" required><br>
         User Type: 
-        <select name="user_type">
+        <select name="user_type" required>
             <option value="1">Customer</option>
             <option value="2">Charity</option>
             <option value="3">Retailer</option>
-        </select><br>
-        Location: 
-        <select name="location">
-            <option value="Ottawa">Ottawa</option>
-            <option value="Kanata">Kanata</option>
-        </select><br>
-        Communication: 
-        <select name="communication">
-            <option value="1">No</option>
-            <option value="2">Phone</option>
-            <option value="3">Email</option>
-            <option value="4">Both</option>
-        </select><br>
-        Food Preference: 
-        <select name="food_preference">
-            <option value="Vegan">Vegan</option>
-            <option value="Not Vegan">Not Vegan</option>
-        </select><br>
-        Notifications: 
-        <select name="notifications">
-            <option value="1">No</option>
-            <option value="2">Phone</option>
-            <option value="3">Email</option>
-            <option value="4">Both</option>
         </select><br>
         <input type="submit" value="Register">
     </form>

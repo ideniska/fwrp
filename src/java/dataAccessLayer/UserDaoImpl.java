@@ -47,7 +47,7 @@ public class UserDaoImpl {
 
     public boolean addUser(UserDTO user) throws ClassNotFoundException {
         String checkQuery = "SELECT email FROM User WHERE email = ?";
-        String insertQuery = "INSERT INTO User (first_name, last_name, phone, address, email, password, user_type, location, communication, food_preference, notifications, org_name) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO User (first_name, last_name, email, password, user_type, address, phone, location, communication, food_preference, notifications, org_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DataSource.getConnection();
              PreparedStatement checkPstmt = con.prepareStatement(checkQuery)) {
@@ -60,18 +60,22 @@ public class UserDaoImpl {
             }
 
             try (PreparedStatement insertPstmt = con.prepareStatement(insertQuery)) {
+                // Set required fields
                 insertPstmt.setString(1, user.getFirstName());
                 insertPstmt.setString(2, user.getLastName());
-                insertPstmt.setString(3, user.getPhone());
-                insertPstmt.setString(4, user.getAddress());
-                insertPstmt.setString(5, user.getEmail());
-                insertPstmt.setString(6, user.getPassword());
-                insertPstmt.setInt(7, user.getUserType());
-                insertPstmt.setString(8, user.getLocation());
-                insertPstmt.setInt(9, user.getCommunication());
-                insertPstmt.setString(10, user.getFoodPreference());
-                insertPstmt.setInt(11, user.getNotifications());
-                insertPstmt.setString(12, user.getOrgName());
+                insertPstmt.setString(3, user.getEmail());
+                insertPstmt.setString(4, user.getPassword());
+                insertPstmt.setInt(5, user.getUserType());
+
+                // Set optional fields, default to empty string if not provided
+                insertPstmt.setString(6, user.getAddress() != null ? user.getAddress() : "");
+                insertPstmt.setString(7, user.getPhone() != null ? user.getPhone() : "");
+                insertPstmt.setString(8, user.getLocation() != null ? user.getLocation() : "Ottawa");
+                insertPstmt.setInt(9, user.getCommunication() != null ? user.getCommunication() : 1); // Default to 'No'
+                insertPstmt.setString(10, user.getFoodPreference() != null ? user.getFoodPreference() : "Not Vegan");
+                insertPstmt.setInt(11, user.getNotifications() != null ? user.getNotifications() : 1); // Default to 'No'
+                insertPstmt.setString(12, user.getOrgName() != null ? user.getOrgName() : "");
+
                 insertPstmt.executeUpdate();
                 return true;
             }
@@ -80,6 +84,8 @@ public class UserDaoImpl {
         }
         return false;
     }
+
+
 
     public UserDTO authenticateUser(String email, String password) {
         UserDTO user = null;
