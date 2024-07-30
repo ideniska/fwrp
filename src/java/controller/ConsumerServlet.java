@@ -62,19 +62,18 @@ public class ConsumerServlet extends HttpServlet {
             List<InventoryDTO> inventoryList = consumerBusinessLogic.getFilteredInventory();
             request.setAttribute("inventoryList", inventoryList);
 
-            // to get user ID by static, will be change to session=================
-            String userIdStr = "1";
+            // to get user ID for testing by static, will be change to
+            // session=================
+            // String userIdStr = "1";
+            int userId = (int) request.getSession().getAttribute("userId"); // Retrieve userId from session
 
-            if (userIdStr != null && !userIdStr.isEmpty()) {
-                int userId = Integer.parseInt(userIdStr);
+            // if (userIdStr != null && !userIdStr.isEmpty()) {
+            // int userId = Integer.parseInt(userIdStr);
 
-                UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
+            UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
 
-                request.setAttribute("credit", user.getCredit());
-                request.setAttribute("user", user); // 添加用户对象到请求
-            } else {
-                request.setAttribute("credit", 5.0); // 如果用户 ID 为空，默认信用值为 0
-            }
+            request.setAttribute("credit", user.getCredit());
+            request.setAttribute("user", user); // 添加用户对象到请求
 
             request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
         } catch (SQLException | ClassNotFoundException e) {
@@ -96,12 +95,12 @@ public class ConsumerServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!AuthUtils.checkUserType(request, UserType.CUSTOMER)) {
-            response.sendRedirect(request.getContextPath() + "/login");
-            return;
-        }
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        // int userId = Integer.parseInt(request.getParameter("userId"));
+        int userId = (int) request.getSession().getAttribute("userId");
         String[] foodIds = request.getParameterValues("foodId");
+
+        System.out.println("userId: " + userId);
+        System.out.println("foodIds: " + (foodIds != null ? Arrays.toString(foodIds) : "null"));
 
         if (foodIds == null) {
             request.setAttribute("message", "No items selected for purchase.");

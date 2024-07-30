@@ -33,9 +33,8 @@
                 document.getElementById('actualPayment').innerText = actualPayment.toFixed(2);
             }
 
-            function handlePurchase() {
+             function handlePurchase() {
 
-                return true;
             }
         </script>
     </head>
@@ -47,6 +46,7 @@
                     <th>Food ID</th>
                     <th>Food name</th>
                     <th>Expiration date</th>
+                    <th>In stock</th>
                     <th>Original price</th>
                     <th>Purchase price</th>
                     <th>Quantity</th>
@@ -61,6 +61,7 @@
                     <td><%=item.getFoodId()  %></td>
                     <td><%=item.getFoodName() %></td>
                     <td><%=item.getExpDate() %></td>
+                    <td><%=item.getQuantity() %></td>
                     <td><%=item.getPrice() %></td>
                     <td><%=purchasePrice %></td>
                     <td>
