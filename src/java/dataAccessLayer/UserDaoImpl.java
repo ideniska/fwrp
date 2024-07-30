@@ -72,7 +72,7 @@ public class UserDaoImpl {
                 insertPstmt.setString(7, user.getPhone() != null ? user.getPhone() : "");
                 insertPstmt.setString(8, user.getLocation() != null ? user.getLocation() : "Ottawa");
                 insertPstmt.setInt(9, user.getCommunication() != null ? user.getCommunication() : 1); // Default to 'No'
-                insertPstmt.setString(10, user.getFoodPreference() != null ? user.getFoodPreference() : "Not Vegan");
+                insertPstmt.setString(10, user.getFoodPreference() != null ? user.getFoodPreference() : "");
                 insertPstmt.setInt(11, user.getNotifications() != null ? user.getNotifications() : 1); // Default to
                                                                                                        // 'No'
                 insertPstmt.setString(12, user.getOrgName() != null ? user.getOrgName() : "");
