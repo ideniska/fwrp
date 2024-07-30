@@ -197,34 +197,4 @@ public class UserDaoImpl {
         }
     }
 
-    public UserDTO getUserCreditById(int userId) throws SQLException, ClassNotFoundException {
-        UserDTO user = null;
-        String query = "SELECT credit FROM User WHERE user_id = ?";
-
-        try (Connection con = DataSource.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
-
-            pstmt.setInt(1, userId);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    user = new UserDTO();
-                    user.setUserId(userId);
-                    user.setCredit(rs.getDouble("credit"));
-                }
-            }
-        }
-        return user;
-    }
-
-    public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET credit = ? WHERE user_id = ?";
-
-        try (Connection con = DataSource.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
-
-            pstmt.setDouble(1, user.getCredit());
-            pstmt.setInt(2, user.getUserId());
-            pstmt.executeUpdate();
-        }
-    }
 }

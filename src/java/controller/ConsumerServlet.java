@@ -17,8 +17,6 @@ import model.TransactionItemDTO;
 import model.UserTransactionDTO;
 import businesslayer.ConsumerBusinessLogic;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.UserDTO;
 import model.UserType;
 import util.AuthUtils;
@@ -59,27 +57,29 @@ public class ConsumerServlet extends HttpServlet {
             return;
         }
         try {
-            List<InventoryDTO> inventoryList = consumerBusinessLogic.getFilteredInventory();
-            request.setAttribute("inventoryList", inventoryList);
-
-            // to get user ID for testing by static, will be change to
-            // session=================
-            // String userIdStr = "1";
-            int userId = (int) request.getSession().getAttribute("userId"); // Retrieve userId from session
-
-            // if (userIdStr != null && !userIdStr.isEmpty()) {
-            // int userId = Integer.parseInt(userIdStr);
-
+        List<InventoryDTO> inventoryList = consumerBusinessLogic.getFilteredInventory();
+        request.setAttribute("inventoryList", inventoryList);
+        
+       
+//        to get user ID for testing by static, will be change to session=================
+//        String userIdStr = "1";
+        int userId = (int) request.getSession().getAttribute("userId"); // Retrieve userId from session
+        
+//        if (userIdStr != null && !userIdStr.isEmpty()) {
+//            int userId = Integer.parseInt(userIdStr);
+            
+         
             UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
-
+            
             request.setAttribute("credit", user.getCredit());
             request.setAttribute("user", user); // 添加用户对象到请求
-
-            request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
-        }
+        
+        
+        request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database error");
+    }
     }
 
     /**

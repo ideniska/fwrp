@@ -11,7 +11,6 @@ import notification.SMSObserver;
 import util.AuthUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,10 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class AddProductServlet extends HttpServlet {
 
@@ -61,6 +57,8 @@ public class AddProductServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+        Integer userId = (Integer) request.getSession().getAttribute("userId"); 
+
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
 
         int foodId = Integer.parseInt(request.getParameter("foodId"));
@@ -97,9 +95,7 @@ public class AddProductServlet extends HttpServlet {
         newItem.setSurplus(surplus);
         newItem.setFoodPreference(foodPreference);
         newItem.setLocation(location);
-
-        UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-        int userId = user.getUserId();
+        newItem.setUserId(userId); 
 
         try {
             retailerBusinessLogic.addInventory(newItem, userId);

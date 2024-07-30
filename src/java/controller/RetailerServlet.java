@@ -26,7 +26,7 @@ public class RetailerServlet extends HttpServlet {
         }
 
         UserDTO user = (UserDTO) request.getSession().getAttribute("user");
-        int userId = user.getUserId();  // Get userId from the UserDTO object
+        int userId = user.getUserId();  
 
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();
         List<InventoryDTO> inventory = null;

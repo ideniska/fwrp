@@ -17,8 +17,12 @@ CREATE TABLE User (
     communication INT,
     food_preference VARCHAR(255),
     notifications INT,
-    org_name VARCHAR(255)
+    org_name VARCHAR(255),
+credit DECIMAL(10, 2) 
 );
+
+
+
 
 CREATE TABLE UserTransaction (
     usertransaction_id INT PRIMARY KEY AUTO_INCREMENT,
