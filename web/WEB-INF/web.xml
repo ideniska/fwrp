@@ -12,7 +12,7 @@
     </servlet>
       <servlet-mapping>
         <servlet-name>ConsumerServlet</servlet-name>
-        <url-pattern>/Consumer</url-pattern>
+        <url-pattern>/consumer</url-pattern>
     </servlet-mapping>
 
 
@@ -23,7 +23,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>OrderServlet</servlet-name>
-        <url-pattern>/Order</url-pattern>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
 
     <!-- RetailerServlet Configuration -->
@@ -129,4 +129,53 @@
         <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
     
+    <!-- LogoutServlet Configuration -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>controller.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginErrorServlet</servlet-name>
+        <servlet-class>controller.LoginErrorServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>LoginErrorServlet</servlet-name>
+        <url-pattern>/loginError</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegisterErrorServlet</servlet-name>
+        <servlet-class>controller.RegisterErrorServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>RegisterErrorServlet</servlet-name>
+        <url-pattern>/registerError</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ManageProfileServlet</servlet-name>
+        <servlet-class>controller.ManageProfileServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ManageProfileServlet</servlet-name>
+        <url-pattern>/manageProfile</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <servlet-class>controller.UpdateUserServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>UpdateUserServlet</servlet-name>
+        <url-pattern>/updateUser</url-pattern>
+    </servlet-mapping>
 </web-app>

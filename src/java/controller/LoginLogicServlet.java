@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import dataAccessLayer.UserDaoImpl;
@@ -34,21 +30,20 @@ public class LoginLogicServlet extends HttpServlet {
             request.getSession().setAttribute("user", user);
             switch (user.getUserType()) {
                 case 1:
-                    response.sendRedirect(request.getContextPath() + "/Consumer");
+                    response.sendRedirect(request.getContextPath() + "/consumer");
                     break;
                 case 2:
-                    response.sendRedirect(request.getContextPath() + "/Charity");
+                    response.sendRedirect(request.getContextPath() + "/charity");
                     break;
                 case 3:
                     response.sendRedirect(request.getContextPath() + "/retailer");
                     break;
                 default:
-                    //TODO add servlet for jsp for cleaner url
                     response.sendRedirect(request.getContextPath() + "/login");
                     break;
             }
         } else {
-            response.sendRedirect("loginView.jsp?error=invalid");
+            response.sendRedirect(request.getContextPath() + "/loginError");
         }
     }
 }

@@ -1,4 +1,4 @@
-    <%-- 
+    <%--
     Document   : purchasePage
     Created on : Jul. 11, 2024, 7:14:37 p.m.
     Author     : Yuchen Wang
@@ -34,12 +34,12 @@
             }
 
             function handlePurchase() {
-                
+
                 return true;
             }
-        </script>    
+        </script>
     </head>
-    <body> 
+    <body>
         <h1>Purchase items</h1>
         <form method ="post" action ="Consumer" onsubmit="return handlePurchase()">
             <table border ="1">
@@ -65,7 +65,7 @@
                     <td><%=purchasePrice %></td>
                     <td>
                         <input type ="number" name="quantity_<%=item.getFoodId()%>" min="1" max ="<%=item.getQuantity() %>" oninput="updateSummary()">
-                        <input type ="hidden" name="price_<%= item.getFoodId()%>" value ="<%=purchasePrice %>"> 
+                        <input type ="hidden" name="price_<%= item.getFoodId()%>" value ="<%=purchasePrice %>">
                         <input type="hidden" name="foodName_<%= item.getFoodId() %>" value="<%= item.getFoodName() %>">
                     </td>
                     <td><input type="checkbox" name="foodId" value="<%= item.getFoodId() %>" onclick="updateSummary()"></td>
@@ -93,5 +93,12 @@
         </form>
     </table>
         <p id="message"><%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %></p>
+
+    <a href="<%=request.getContextPath()%>/manageProfile">Manage Profile</a>
+
+    <form action="<%=request.getContextPath()%>/logout" method="post">
+        <input type="submit" value="Log Out">
+    </form>
+
     </body>
 </html>

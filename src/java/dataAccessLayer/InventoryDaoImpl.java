@@ -47,27 +47,60 @@ public class InventoryDaoImpl {
         return inventoryList;
     }
 
+    public List<InventoryDTO> getInventoryByUserId(int userId) throws SQLException, ClassNotFoundException {
+    List<InventoryDTO> inventoryList = new ArrayList<>();
+    String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory WHERE user_id = ?";
+
+    try (Connection con = DataSource.getConnection();
+         PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setInt(1, userId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                InventoryDTO inventory = new InventoryDTO();
+                inventory.setFoodId(rs.getInt("food_id"));
+                inventory.setFoodName(rs.getString("food_name"));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setExpDate(rs.getDate("exp_date"));
+                inventory.setSurplus(rs.getInt("surplus"));
+                inventory.setPrice(rs.getDouble("price"));
+                inventoryList.add(inventory);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw e;
+    }
+    return inventoryList;
+}
+
+        
     /**
      * Adds a new inventory item to the database.
      *
      * @param inventory the InventoryDTO object to be added
      */
-    public void addInventory(InventoryDTO inventory) throws ClassNotFoundException {
-        String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) VALUES(?, ?, ?, ?, ?)";
+    public void addInventory(InventoryDTO inventory, int userId) throws ClassNotFoundException {
+        String query = "INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price, user_id, food_preference, location) " +
+                       "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = DataSource.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
+             PreparedStatement pstmt = con.prepareStatement(query)) {
 
             pstmt.setString(1, inventory.getFoodName());
             pstmt.setInt(2, inventory.getQuantity());
             pstmt.setDate(3, new java.sql.Date(inventory.getExpDate().getTime()));
             pstmt.setInt(4, inventory.getSurplus());
             pstmt.setDouble(5, inventory.getPrice());
+            pstmt.setInt(6, userId);
+            pstmt.setString(7, inventory.getFoodPreference());
+            pstmt.setString(8, inventory.getLocation());
+            
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Updates an existing inventory item in the database.

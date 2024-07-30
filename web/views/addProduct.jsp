@@ -47,6 +47,16 @@
             <option value="0">No</option>
             <option value="1">Yes</option>
         </select><br><br>
+        <label for="foodPreference">Food Preference:</label><br>
+        <select id="foodPreference" name="foodPreference">
+            <option value="Vegan">Vegan</option>
+            <option value="Not Vegan">Not Vegan</option>
+        </select><br><br>
+        <label for="location">Location:</label><br>
+        <select id="location" name="location">
+            <option value="Ottawa">Ottawa</option>
+            <option value="Kanata">Kanata</option>
+        </select><br><br>
         <input type="submit" value="Add Product">
     </form>
     <br>

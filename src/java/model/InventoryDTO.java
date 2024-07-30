@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author denissakhno
- */
 import java.util.Date;
 
 public class InventoryDTO {
@@ -17,6 +9,9 @@ public class InventoryDTO {
     private Date expDate;
     private Integer surplus;
     private Double price;
+    private int userId;
+    private String foodPreference;
+    private String location;
 
     // Getters and Setters
     public Integer getFoodId() {
@@ -65,5 +60,29 @@ public class InventoryDTO {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getFoodPreference() {
+        return foodPreference;
+    }
+
+    public void setFoodPreference(String foodPreference) {
+        this.foodPreference = foodPreference;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

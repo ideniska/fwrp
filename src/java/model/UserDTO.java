@@ -21,6 +21,7 @@ public class UserDTO {
     private Integer communication;
     private String foodPreference;
     private Integer notifications;
+    private String orgName;
     private double credit;
 
     // Getters and Setters
@@ -39,22 +40,23 @@ public class UserDTO {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
-     public String getLastName() {
+
+    public String getLastName() {
         return lastName;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }   
-    
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
-     public String getPhone() {
-        return phone;
-    }
-    
+
     public String getAddress() {
         return address;
     }
@@ -62,7 +64,7 @@ public class UserDTO {
     public void setAddress(String address) {
         this.address = address;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -118,7 +120,15 @@ public class UserDTO {
     public void setNotifications(Integer notifications) {
         this.notifications = notifications;
     }
-    
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
     public double getCredit() {
         return credit;
     }

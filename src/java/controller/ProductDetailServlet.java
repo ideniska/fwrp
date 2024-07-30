@@ -8,11 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import model.UserType;
+import util.AuthUtils;
 
 //@WebServlet("/detail")
 public class ProductDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!AuthUtils.checkUserType(request, UserType.RETAILER)) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
         String foodId = request.getParameter("foodId");
 
         RetailerBusinessLogic retailerBusinessLogic = new RetailerBusinessLogic();

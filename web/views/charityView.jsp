@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : charityView
     Created on : Jul 23, 2024, 9:24:14 p.m.
     Author     : dmlop
@@ -76,5 +76,12 @@
         <input type="submit" value="Claim Selected Items">
     </form>
     <div id="responseMessage"><%= request.getAttribute("message") != null ? request.getAttribute("message") : "" %></div>
+
+    <a href="<%=request.getContextPath()%>/manageProfile">Manage Profile</a>
+
+    <form action="<%=request.getContextPath()%>/logout" method="post">
+        <input type="submit" value="Log Out">
+    </form>
+
 </body>
 </html>
