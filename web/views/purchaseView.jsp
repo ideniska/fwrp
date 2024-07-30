@@ -52,6 +52,8 @@
         </form>
         <p><%=request.getAttribute("message") !=null ? request.getAttribute("message") :""%></p>
             
+    <a href="<%=request.getContextPath()%>/manageProfile">Manage Profile</a>    
+    
     <form action="<%=request.getContextPath()%>/logout" method="post">
         <input type="submit" value="Log Out">
     </form>

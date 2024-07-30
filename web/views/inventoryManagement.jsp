@@ -45,7 +45,9 @@
             }
         %>
     </table>
-            
+ 
+    <a href="<%=request.getContextPath()%>/manageProfile">Manage Profile</a>
+
     <form action="<%=request.getContextPath()%>/logout" method="post">
         <input type="submit" value="Log Out">
     </form>
