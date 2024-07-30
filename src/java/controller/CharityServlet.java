@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,10 +60,16 @@ public class CharityServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!AuthUtils.checkUserType(request, UserType.CHARITY)) {
             response.sendRedirect(request.getContextPath() + "/login");
+
+        Integer userId = (Integer) request.getSession().getAttribute("userId"); // Retrieve userId from session
+        String[] foodIds = request.getParameterValues("foodId");
+
+        if (foodIds == null) {
+            request.setAttribute("message", "No items selected for claiming.");
+            doGet(request, response);
             return;
         }
         Enumeration<String> parameterNames = request.getParameterNames();
