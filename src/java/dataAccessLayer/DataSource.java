@@ -48,7 +48,7 @@ public class DataSource {
      * @return an array of Strings containing the connection URL, username, and
      *         password
      */
-    private static String[] openPropsFile() {
+    public static String[] openPropsFile() {
         Properties props = new Properties();
 
         try (InputStream in = DataSource.class.getClassLoader().getResourceAsStream("resources/db.properties")) {
