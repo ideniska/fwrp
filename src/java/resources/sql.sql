@@ -55,3 +55,24 @@ CREATE TABLE TransactionItem (
 
 select * from inventory;
 select * from user;
+
+use fwrp;
+INSERT INTO User (first_name, last_name, address, phone, email, password, user_type, location, food_preference, notifications, org_name, credit)
+VALUES 
+('Gustavo', 'Adami', '123 Maple St', '555-1234', 'adamig@algonquincollege.com', '123', 1, 'Ottawa', 'Not Vegan', 1, NULL, 100.00),
+('Gordon', 'Freeman', '456 Oak St', '555-5678', 'freeman@blackmesa.com', 'crowbarheart', 2, 'Kanata', NULL, 2, 'Black Mesa', 200.00),
+('JC', 'Denton', '789 Pine St', '555-8765', 'denton@machina.com', '123', 3, 'Ottawa', NULL, NULL, NULL, 300.00),
+('Marty', 'McFly', '321 Cedar St', '555-2345', 'mcfly@bttf.com', '123', 1, 'Kanata', 'Vegan', 3, NULL, 150.00),
+('Emmett', 'Brown', '654 Spruce St', '555-6789', 'brown@bttf.com', '123', 2, 'Ottawa', NULL, 4, 'Help Foundation', 250.00),
+('Goku', 'Son', '987 Birch St', '555-9876', 'goku@dbz.com', '123', 3, 'Kanata', NULL, NULL, NULL, 350.00);
+
+-- Insert inventory after the users.
+use fwrp;
+INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price, user_id, food_preference, location)
+VALUES 
+('Oranges', 150, '2024-08-25', 0, 1.20, 3, 'Vegan', 'Ottawa'),
+('Pork', 75, '2024-08-26', 1, 4.60, 3, 'Not Vegan', 'Kanata'),
+('Tomatoes', 120, '2024-08-27', 0, 0.90, 3, 'Vegan', 'Ottawa'),
+('Lettuce', 180, '2024-08-28', 1, 1.00, 6, 'Vegan', 'Kanata'),
+('Bacon', 130, '2024-08-29', 0, 3.30, 6, 'Not Vegan', 'Ottawa'),
+('Peppers', 90, '2024-08-30', 1, 1.10, 6, 'Vegan', 'Kanata');
