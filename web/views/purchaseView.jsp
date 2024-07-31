@@ -40,7 +40,7 @@
     </head>
     <body>
         <h1>Purchase items</h1>
-        <form method ="post" action ="Consumer" onsubmit="return handlePurchase()">
+        <form method ="post" action ="consumer" onsubmit="return handlePurchase()">
             <table border ="1">
                 <tr>
                     <th>Food ID</th>
@@ -74,7 +74,6 @@
                 <% } %>
             </table>
             <input type="hidden" name="userId" value="1">
-            <!--<input type="hidden" name="userId" value="<%= session.getAttribute("userId") %>">dynamic to get userID-->
             <h2>Summary</h2>
             <table border="1">
                 <tr>
