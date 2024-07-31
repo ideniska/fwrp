@@ -3,7 +3,6 @@ package controller;
 import businesslayer.RetailerBusinessLogic;
 import dataAccessLayer.DataSource;
 import model.InventoryDTO;
-import model.UserDTO;
 import model.UserType;
 import notification.EmailObserver;
 import notification.NotificationService;
@@ -23,15 +22,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * Servlet implementation class AddProductServlet.
+ * Handles the addition of new products to the inventory by the retailer.
+ * 
+ * author Denis Sakhno
+ */
 public class AddProductServlet extends HttpServlet {
 
     private NotificationService notificationService;
 
+    /**
+     * Initializes a new instance of the AddProductServlet class.
+     */
     public AddProductServlet() {
         this.notificationService = new NotificationService();
     }
 
+    /**
+     * Handles the HTTP GET method.
+     * Checks user type and forwards the request to the addProduct.jsp view.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the GET request
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,6 +66,15 @@ public class AddProductServlet extends HttpServlet {
         request.getRequestDispatcher("/views/addProduct.jsp").forward(request, response);
     }
 
+    /**
+     * Handles the HTTP POST method.
+     * Processes the product details submitted by the retailer and adds the new product to the inventory.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the POST request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

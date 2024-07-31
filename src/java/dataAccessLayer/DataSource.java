@@ -10,6 +10,8 @@ import java.util.Properties;
 /**
  * This class provides a method to establish a connection to the database using
  * JDBC.
+ * 
+ * author Denis Sakhno
  */
 public class DataSource {
 

@@ -8,11 +8,24 @@ import java.util.ArrayList;
 import java.util.List;
 import model.UserDTO;
 
+/**
+ * Data Access Object implementation for User.
+ * Provides methods to perform CRUD operations on the User table.
+ * 
+
+ */
 public class UserDaoImpl {
 
     public UserDaoImpl() {
     }
 
+    /**
+     * Retrieves all users from the database.
+     *
+     * @return a list of UserDTO objects
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public List<UserDTO> getAllUsers() throws SQLException, ClassNotFoundException {
         List<UserDTO> users = new ArrayList<>();
         String query = "SELECT user_id, first_name, last_name, phone, address, email, password, user_type, location, food_preference, notifications, org_name FROM User ORDER BY user_id";
@@ -44,6 +57,13 @@ public class UserDaoImpl {
         return users;
     }
 
+    /**
+     * Adds a new user to the database.
+     *
+     * @param user the UserDTO object to be added
+     * @return true if the user was successfully added, false if the email already exists
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public boolean addUser(UserDTO user) throws ClassNotFoundException {
         String checkQuery = "SELECT email FROM User WHERE email = ?";
         String insertQuery = "INSERT INTO User (first_name, last_name, email, password, user_type, address, phone, location, food_preference, notifications, org_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -83,6 +103,13 @@ public class UserDaoImpl {
         return false;
     }
 
+    /**
+     * Authenticates a user by email and password.
+     *
+     * @param email the email of the user
+     * @param password the password of the user
+     * @return the authenticated UserDTO object, or null if authentication fails
+     */
     public UserDTO authenticateUser(String email, String password) {
         UserDTO user = null;
         String query = "SELECT * FROM User WHERE email = ? AND password = ?";
@@ -114,6 +141,14 @@ public class UserDaoImpl {
         return user;
     }
 
+    /**
+     * Retrieves a user by their ID.
+     *
+     * @param userId the ID of the user to be retrieved
+     * @return the UserDTO object representing the user
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public UserDTO getUserById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
         String query = "SELECT user_id, first_name, last_name, phone, address, org_name FROM User WHERE user_id = ?";
@@ -145,6 +180,13 @@ public class UserDaoImpl {
         return user;
     }
 
+    /**
+     * Updates an existing user in the database.
+     *
+     * @param user the UserDTO object containing updated information
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public void updateUser(UserDTO user) throws SQLException, ClassNotFoundException {
         String query = "UPDATE User SET phone = ?, address = ?, org_name = ?, location = ?, food_preference = ?, notifications = ? WHERE user_id = ?";
 
@@ -163,7 +205,14 @@ public class UserDaoImpl {
         }
     }
 
-
+    /**
+     * Retrieves the credit of a user by their ID.
+     *
+     * @param userId the ID of the user
+     * @return the UserDTO object containing the user's credit
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public UserDTO getUserCreditById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
         String query = "SELECT credit FROM User WHERE user_id = ?";
@@ -183,16 +232,22 @@ public class UserDaoImpl {
         return user;
     }
 
-    public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE User SET credit = ? WHERE user_id = ?";
+    /**
+     * Updates the credit of an existing user in the database.
+     *
+     * @param user the UserDTO object containing updated credit information
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
+public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundException {
+    String query = "UPDATE User SET credit = ? WHERE user_id = ?";
 
-        try (Connection con = DataSource.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
+    try (Connection con = DataSource.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)) {
 
-            pstmt.setDouble(1, user.getCredit());
-            pstmt.setInt(2, user.getUserId());
-            pstmt.executeUpdate();
-        }
+        pstmt.setDouble(1, user.getCredit());
+        pstmt.setInt(2, user.getUserId());
+        pstmt.executeUpdate();
     }
-
+}
 }

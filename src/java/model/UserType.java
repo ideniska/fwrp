@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 /**
- *
- * @author berka
+ * Enumeration for user types.
+ * Provides integer values for each user type and a method to retrieve the user type from its value.
+ * 
+ * author Berkay
  */
 public enum UserType {
     CUSTOMER(1),
@@ -15,14 +13,31 @@ public enum UserType {
 
     private final int value;
 
+    /**
+     * Constructor for UserType.
+     *
+     * @param value the integer value associated with the user type
+     */
     UserType(int value) {
         this.value = value;
     }
 
+    /**
+     * Gets the integer value associated with the user type.
+     *
+     * @return the integer value
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Retrieves the UserType associated with a given value.
+     *
+     * @param value the integer value of the user type
+     * @return the UserType corresponding to the value
+     * @throws IllegalArgumentException if the value does not correspond to any UserType
+     */
     public static UserType fromValue(int value) {
         for (UserType type : UserType.values()) {
             if (type.getValue() == value) {

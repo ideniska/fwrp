@@ -1,4 +1,3 @@
-
 package controller;
 
 import businesslayer.CharityBusinessLogic;
@@ -19,19 +18,33 @@ import model.UserTransactionDTO;
 import model.UserType;
 import util.AuthUtils;
 
-
-
+/**
+ * CharityServlet handles the requests related to charity operations, such as viewing and claiming inventory items.
+ * 
+ * author Daniel Lopez
+ */
 public class CharityServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CharityBusinessLogic charityBusinessLogic;
     private static final Logger logger = Logger.getLogger(CharityServlet.class.getName());
-    
 
+    /**
+     * Initializes the CharityBusinessLogic instance.
+     */
     @Override
     public void init() {
         this.charityBusinessLogic = new CharityBusinessLogic();
     }
 
+    /**
+     * Handles the HTTP GET method.
+     * Retrieves charity inventory items and forwards the request to the charity view page.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the GET request
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!AuthUtils.checkUserType(request, UserType.CHARITY)) {
@@ -48,6 +61,15 @@ public class CharityServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Handles the HTTP POST method.
+     * Processes the claim of inventory items by the charity and updates the inventory and transaction records.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the POST request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer userId = (Integer) request.getSession().getAttribute("userId"); // Retrieve userId from session

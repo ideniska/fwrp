@@ -12,7 +12,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * UpdateProductServlet handles the updating and deleting of products in the retailer's inventory.
+ * 
+ * author Denis Sakhno
+ */
 public class UpdateProductServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Handles the HTTP POST method.
+     * Processes the update or delete actions for a product in the inventory.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the POST request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");

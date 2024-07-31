@@ -3,7 +3,6 @@ package controller;
 import dataAccessLayer.UserDaoImpl;
 import model.UserDTO;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,9 +10,23 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/**
+ * UpdateUserServlet handles the updating of user profile details.
+ * 
+ * author Berkay
+ */
 public class UpdateUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Handles the HTTP POST method.
+     * Updates the user details in the database and refreshes the session with the updated user information.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the POST request
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -37,7 +50,7 @@ public class UpdateUserServlet extends HttpServlet {
         user.setFoodPreference(foodPreference);
         user.setNotifications(notifications);
 
-        if (user.getUserType() == 2) {
+        if (user.getUserType() == 2) { 
             user.setOrgName(orgName);
         }
 
@@ -51,5 +64,4 @@ public class UpdateUserServlet extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/manageProfile");
     }
-
 }

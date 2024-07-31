@@ -17,7 +17,7 @@ import model.UserTransactionDTO;
  * Business logic layer for managing charity operations.
  * Provides methods to perform operations on charity inventory items.
  * 
- * author dmlop
+ * author Daniel Lopez
  */
 public class CharityBusinessLogic {
     private InventoryDaoImpl inventoryDao = null;

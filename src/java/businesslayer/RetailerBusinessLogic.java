@@ -9,7 +9,7 @@ import dataAccessLayer.InventoryDaoImpl;
  * Business logic layer for managing retailer inventory.
  * Provides methods to perform CRUD operations on inventory items.
  * 
- * author denissakhno
+ * author Denis Sakhno
  */
 public class RetailerBusinessLogic {
     private InventoryDaoImpl inventoryDao = null;

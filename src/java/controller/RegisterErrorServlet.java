@@ -6,9 +6,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * RegisterErrorServlet handles the display of the registration error page.
+ * 
+ * author Berkay
+ */
 public class RegisterErrorServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Handles the HTTP GET method.
+     * Forwards the request to the registerError.jsp view.
+     *
+     * @param request  the HttpServletRequest object that contains the request the client made to the servlet
+     * @param response the HttpServletResponse object that contains the response the servlet returns to the client
+     * @throws ServletException if the request could not be handled
+     * @throws IOException      if an input or output error is detected when the servlet handles the GET request
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("views/registerError.jsp").forward(request, response);

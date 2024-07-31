@@ -61,18 +61,14 @@ public class ConsumerServlet extends HttpServlet {
         request.setAttribute("inventoryList", inventoryList);
         
        
-//        to get user ID for testing by static, will be change to session=================
-//        String userIdStr = "1";
-        int userId = (int) request.getSession().getAttribute("userId"); // Retrieve userId from session
+        int userId = (int) request.getSession().getAttribute("userId"); 
         
-//        if (userIdStr != null && !userIdStr.isEmpty()) {
-//            int userId = Integer.parseInt(userIdStr);
             
          
             UserDTO user = consumerBusinessLogic.getUserCreditById(userId);
             
             request.setAttribute("credit", user.getCredit());
-            request.setAttribute("user", user); // 添加用户对象到请求
+            request.setAttribute("user", user); 
         
         
         request.getRequestDispatcher("/views/purchaseView.jsp").forward(request, response);
@@ -95,7 +91,6 @@ public class ConsumerServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // int userId = Integer.parseInt(request.getParameter("userId"));
         int userId = (int) request.getSession().getAttribute("userId");
         String[] foodIds = request.getParameterValues("foodId");
 
@@ -147,7 +142,7 @@ public class ConsumerServlet extends HttpServlet {
                 transactionItem.setUserTransactionId(userTransactionId);
                 transactionItem.setFoodId(foodId);
                 transactionItem.setQuantity(quantity);
-                transactionItem.setPrice(actualPayment);// change to actualPayment from price
+                transactionItem.setPrice(actualPayment);
                 consumerBusinessLogic.addTransactionItem(transactionItem);
             }
 
@@ -158,9 +153,6 @@ public class ConsumerServlet extends HttpServlet {
             user.setCredit(newCredit);
             consumerBusinessLogic.updateUserCredit(user);
 
-            // request.setAttribute("totalPrice", totalPrice);
-            // request.setAttribute("credit", credit);
-            // request.setAttribute("actualPayment", actualPayment);
             request.setAttribute("message", "Purchase successful!");
 
         } catch (SQLException | ClassNotFoundException e) {
