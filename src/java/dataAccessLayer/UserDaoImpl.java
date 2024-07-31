@@ -151,7 +151,7 @@ public class UserDaoImpl {
      */
     public UserDTO getUserById(int userId) throws SQLException, ClassNotFoundException {
         UserDTO user = null;
-        String query = "SELECT user_id, first_name, last_name, phone, address, org_name FROM User WHERE user_id = ?";
+        String query = "SELECT * FROM User WHERE user_id = ?";
 
         try (Connection con = DataSource.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -204,6 +204,8 @@ public class UserDaoImpl {
             pstmt.executeUpdate();
         }
     }
+    
+    
 
     /**
      * Retrieves the credit of a user by their ID.
@@ -232,6 +234,40 @@ public class UserDaoImpl {
         return user;
     }
 
+    public UserDTO getUserByEmail(String email) {
+    UserDTO user = null;
+    String sql = "SELECT * FROM User WHERE email = ?";
+    
+    try (Connection conn = DataSource.getConnection();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+        pstmt.setString(1, email);
+        
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                user = new UserDTO();
+                user.setUserId(rs.getInt("user_id"));
+                user.setFirstName(rs.getString("first_name"));
+                user.setLastName(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setUserType(rs.getInt("user_type"));
+                user.setAddress(rs.getString("address"));
+                user.setPhone(rs.getString("phone"));
+                user.setLocation(rs.getString("location"));
+                user.setFoodPreference(rs.getString("food_preference"));
+                user.setNotifications(rs.getInt("notifications"));
+                user.setOrgName(rs.getString("org_name"));
+                user.setCredit(rs.getDouble("credit"));
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    return user;
+}
+    
     /**
      * Updates the credit of an existing user in the database.
      *
@@ -250,4 +286,7 @@ public void updateUserCredit(UserDTO user) throws SQLException, ClassNotFoundExc
         pstmt.executeUpdate();
     }
 }
+
+
+
 }
