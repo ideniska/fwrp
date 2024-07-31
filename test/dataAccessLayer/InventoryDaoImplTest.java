@@ -12,16 +12,6 @@ import java.sql.ResultSet;
 public class InventoryDaoImplTest {
     
 
-//    @BeforeClass
-//    public static void setUpClass() throws SQLException, ClassNotFoundException {
-//        try (Connection connection = DataSource.getConnection();
-//            Statement stmt = connection.createStatement()) {
-//            
-//            connection.createStatement().execute("INSERT INTO Inventory (food_name, quantity, exp_date, surplus, price) "
-//                + "VALUES ('Bread', 10, '2024-12-31', 1, 0.99)");
-//        }
-//    }
-
     @Test
     public void testGetAllInventory() throws Exception {
         InventoryDaoImpl instance = new InventoryDaoImpl();
@@ -31,6 +21,7 @@ public class InventoryDaoImplTest {
 
     @Test
     public void testAddInventory() throws Exception {
+        int userId = 1;
         InventoryDaoImpl instance = new InventoryDaoImpl();
         InventoryDTO inventory = new InventoryDTO();
         inventory.setFoodName("Mango");
@@ -38,11 +29,11 @@ public class InventoryDaoImplTest {
         inventory.setExpDate(java.sql.Date.valueOf("2024-12-31"));
         inventory.setSurplus(0);
         inventory.setPrice(1.99);
-        instance.addInventory(inventory);
+        instance.addInventory(inventory, userId);
         
         
          try (Connection connection = DataSource.getConnection();
-            Statement stmt = connection.createStatement()) {
+                 ) {
             String query = "SELECT * FROM Inventory WHERE food_name = 'Mango'";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
@@ -66,10 +57,9 @@ public class InventoryDaoImplTest {
 
     @Test
     public void testGetSurplusInventory() throws Exception {
-        InventoryDaoImpl instance = new InventoryDaoImpl();
-        List<InventoryDTO> result = instance.getSurplusInventory();
+
         try (Connection connection = DataSource.getConnection();
-            Statement stmt = connection.createStatement()) {
+                ) {
             String query = "SELECT * FROM Inventory WHERE food_name = 'Mango'";
             PreparedStatement pstmt = connection.prepareStatement(query);
             ResultSet rs = pstmt.executeQuery();
@@ -105,7 +95,7 @@ public class InventoryDaoImplTest {
     @Test
     public void testGetFilteredInventory() throws Exception {
         InventoryDaoImpl instance = new InventoryDaoImpl();
-        List<InventoryDTO> result = instance.getDiscountedInventory();
+        List<InventoryDTO> result = instance.getFilteredInventory();
         assertNotNull(result);
     }
 
