@@ -12,7 +12,7 @@ import model.InventoryDTO;
  * Data Access Object implementation for the Inventory.
  * Provides methods to perform CRUD operations on the Inventory table.
  *
- * author denissakhno
+ * author Denis Sakhno
  */
 public class InventoryDaoImpl {
 
@@ -47,6 +47,14 @@ public class InventoryDaoImpl {
         return inventoryList;
     }
 
+     /**
+     * Retrieves inventory items by user ID.
+     *
+     * @param userId the ID of the user whose inventory items are to be retrieved
+     * @return a list of InventoryDTO objects
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public List<InventoryDTO> getInventoryByUserId(int userId) throws SQLException, ClassNotFoundException {
     List<InventoryDTO> inventoryList = new ArrayList<>();
     String query = "SELECT food_id, food_name, quantity, exp_date, surplus, price FROM Inventory WHERE user_id = ?";
@@ -224,7 +232,13 @@ public class InventoryDaoImpl {
         return latestFoodId;
     }
 
-    // TODO CHANGE METHOD NAME TO MORE UNDERSTANDABLE
+     /**
+     * Retrieves filtered (expiration date from 7 to 14 days) inventory items from the database.
+     * 
+     * @return a list of InventoryDTO objects
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public List<InventoryDTO> getFilteredInventory() throws SQLException, ClassNotFoundException {
         ArrayList<InventoryDTO> inventoryList = null;
         try (Connection con = DataSource.getConnection();
@@ -249,7 +263,16 @@ public class InventoryDaoImpl {
         return inventoryList;
     }
     
-    // TODO YUCHEN: UPDATE THIS METHOD TO ACCEPT INVENTORY DTO not its fields -> DAO works with DTOs
+    /**
+     * Logs a purchase transaction in the database.
+     *
+     * @param userId the ID of the user making the purchase
+     * @param foodId the ID of the food item being purchased
+     * @param quantity the quantity of the food item being purchased
+     * @param price the price of the food item being purchased
+     * @throws SQLException if a database access error occurs
+     * @throws ClassNotFoundException if the JDBC driver class is not found
+     */
     public void logPurchase(int userId, int foodId, int quantity, double price) throws SQLException, ClassNotFoundException {
         String transactionQuery = "INSERT INTO UserTransaction (user_id, transaction_date) VALUES (?, NOW())";
         String itemQuery = "INSERT INTO TransactionItem (usertransaction_id, food_id, quantity, price) VALUES (?, ?, ?, ?)";
