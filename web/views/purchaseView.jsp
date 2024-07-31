@@ -40,7 +40,7 @@
     </head>
     <body>
         <h1>Purchase items</h1>
-        <form method ="post" action ="Consumer" onsubmit="return handlePurchase()">
+        <form method ="post" action ="consumer" onsubmit="return handlePurchase()">
             <table border ="1">
                 <tr>
                     <th>Food ID</th>
